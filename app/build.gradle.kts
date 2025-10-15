@@ -52,4 +52,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Gson Converter for Retrofit
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation("com.github.bumptech.glide:glide:5.0.5")
 }

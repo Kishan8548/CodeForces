@@ -76,7 +76,7 @@ interface CodeforcesApi {
     // ----- User Methods -----
     @GET("user.blogEntries")
     fun getUserBlogEntries(
-        @Query("handle") handle: String
+        @Query("handle") handle: String?
     ): Call<ApiResponse<List<BlogEntry>>>
 
     @GET("user.friends")

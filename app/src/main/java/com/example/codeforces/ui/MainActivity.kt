@@ -1,6 +1,5 @@
 package com.example.codeforces.ui
 
-
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,27 +15,33 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val profileFragment = ProfileFragment()
+
+        val handle = intent.getStringExtra("HANDLE")
+
+        val profileFragment = ProfileFragment().apply {
+            arguments = Bundle().apply {
+                putString("HANDLE", handle)
+            }
+        }
         val contestFragment = ContestFragment()
         val problemsFragment = ProblemsFragment()
 
-
         setCurrentFragment(profileFragment)
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.nav_profile -> setCurrentFragment(profileFragment)
                 R.id.nav_contest -> setCurrentFragment(contestFragment)
                 R.id.nav_problem -> setCurrentFragment(problemsFragment)
             }
             true
         }
-
     }
 
-    private fun setCurrentFragment(fragment: Fragment){
+    private fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
-            commit() 
+            commit()
         }
     }
 }

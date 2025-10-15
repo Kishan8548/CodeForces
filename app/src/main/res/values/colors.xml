@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="newbie">#808080</color>
+    <color name="pupil">#008000</color>
+    <color name="specialist">#03A89E</color>
+    <color name="expert">#0000FF</color>
+    <color name="candidate_master">#AA00AA</color>
+    <color name="master">#FF8C00</color>
+    <color name="international_master">#FFA500</color>
+    <color name="grandmaster">#FF0000</color>
+    <color name="international_grandmaster">#FF0000</color>
+    <color name="legendary_grandmaster">#000000</color>
 </resources>
