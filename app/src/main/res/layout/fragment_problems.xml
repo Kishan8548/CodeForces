@@ -1,15 +1,117 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ProblemsFragment">
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Hello Questions Fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
 
+        <EditText
+            android:id="@+id/editMinRating"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Min Rating"
+            android:inputType="number"/>
+
+        <EditText
+            android:id="@+id/editMaxRating"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Max Rating"
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/btnApplyRatingFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply"/>
+    </LinearLayout>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/tagContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/cbMath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="math"/>
+            <CheckBox android:id="@+id/cbGreedy" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="greedy"/>
+            <CheckBox android:id="@+id/cbImplementation" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="implementation"/>
+            <CheckBox android:id="@+id/cbBruteForce" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="brute force"/>
+            <CheckBox android:id="@+id/cbConstructive" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="constructive algorithms"/>
+            <CheckBox android:id="@+id/cbStrings" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="strings"/>
+            <CheckBox android:id="@+id/cbSortings" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="sortings"/>
+            <CheckBox android:id="@+id/cbNumberTheory" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="number theory"/>
+            <CheckBox android:id="@+id/cbBinarySearch" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="binary search"/>
+            <CheckBox android:id="@+id/cbGames" android:layout_width="wrap_content"
+                android:layout_height="wrap_content"  android:text="games"/>
+            <CheckBox android:id="@+id/cbDP" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="dp"/>
+            <CheckBox android:id="@+id/cbTwoPointers" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="two pointers"/>
+            <CheckBox android:id="@+id/cbDataStructures" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="data structures"/>
+            <CheckBox android:id="@+id/cbCombinatorics" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="combinatorics"/>
+            <CheckBox android:id="@+id/cbGeometry" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="geometry"/>
+            <CheckBox android:id="@+id/cbTernarySearch" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="ternary search"/>
+            <CheckBox android:id="@+id/cbSpecial" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="*special"/>
+            <CheckBox android:id="@+id/cbBitmasks" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="bitmasks"/>
+            <CheckBox android:id="@+id/cbDFS" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="dfs and similar"/>
+            <CheckBox android:id="@+id/cbGraphMatchings" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="graph matchings"/>
+            <CheckBox android:id="@+id/cbGraphs" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="graphs"/>        </LinearLayout>
+
+    </HorizontalScrollView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tvSortTimeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort by Upload Time:"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"/>
+    <Spinner
+        android:id="@+id/spinnerSortTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerProblems"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

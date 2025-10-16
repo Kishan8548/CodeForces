@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_time_options">
+        <item>Newest → Oldest ↓</item>
+        <item>Oldest → Newest ↑</item>
+    </string-array>
+</resources>
