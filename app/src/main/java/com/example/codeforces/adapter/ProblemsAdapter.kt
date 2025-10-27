@@ -9,14 +9,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codeforces.R
 import com.example.codeforces.models.Problem
+import com.example.codeforces.models.ProblemStatistics
 
-class ProblemsAdapter(private var list: List<Problem>) :
-    RecyclerView.Adapter<ProblemsAdapter.ProblemViewHolder>() {
+class ProblemsAdapter(
+    private var list: List<Problem>,
+    private val statistics: List<ProblemStatistics>
+) : RecyclerView.Adapter<ProblemsAdapter.ProblemViewHolder>() {
+
+    private val solvedMap = statistics.associateBy({ it.contestId to it.index }, { it.solvedCount })
 
     inner class ProblemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.textTitle)
-        val tags: TextView = view.findViewById(R.id.textTags)
+        val index: TextView = view.findViewById(R.id.textIndex)
         val rating: TextView = view.findViewById(R.id.textRating)
+        val tags: TextView = view.findViewById(R.id.textTags)
+        val solved: TextView = view.findViewById(R.id.textSolved)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProblemViewHolder {
@@ -27,9 +34,14 @@ class ProblemsAdapter(private var list: List<Problem>) :
 
     override fun onBindViewHolder(holder: ProblemViewHolder, position: Int) {
         val item = list[position]
+
         holder.title.text = item.name
-        holder.tags.text = item.tags.joinToString(", ")
-        item.rating?.let { holder.rating.text = if (it > 0) "Rating: ${item.rating}" else "Unrated" }
+        holder.index.text = "Index: ${item.index}"
+        holder.tags.text = "Tags: ${item.tags.joinToString(", ")}"
+        holder.rating.text = if ((item.rating ?: 0) > 0) "Rating: ${item.rating}" else "Unrated"
+
+        val solvedCount = solvedMap[item.contestId to item.index] ?: 0
+        holder.solved.text = "Solved by: $solvedCount users"
 
         holder.itemView.setOnClickListener {
             val url = "https://codeforces.com/problemset/problem/${item.contestId}/${item.index}"

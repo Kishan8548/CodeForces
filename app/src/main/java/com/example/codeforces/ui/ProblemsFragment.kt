@@ -15,7 +15,10 @@ import com.example.codeforces.databinding.FragmentProblemsBinding
 import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.Problem
 import com.example.codeforces.models.ProblemSetResponse
+import com.example.codeforces.models.ProblemStatistics
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProblemsFragment : Fragment() {
 
@@ -25,6 +28,7 @@ class ProblemsFragment : Fragment() {
     private lateinit var adapter: ProblemsAdapter
     private var allProblems: List<Problem> = emptyList()
     private var filteredProblems: List<Problem> = emptyList()
+    private var allStatistics: List<ProblemStatistics> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +42,7 @@ class ProblemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ProblemsAdapter(emptyList())
+        adapter = ProblemsAdapter(emptyList(), emptyList()) // initially empty
         binding.recyclerProblems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerProblems.adapter = adapter
 
@@ -50,6 +54,7 @@ class ProblemsFragment : Fragment() {
         )
 
         fetchProblems()
+
         binding.btnApplyRatingFilter.setOnClickListener {
             applyFilters()
         }
@@ -69,16 +74,19 @@ class ProblemsFragment : Fragment() {
 
     private fun fetchProblems() {
         val call = RetrofitInstance.api.getProblemSet()
-
-        call.enqueue(object : retrofit2.Callback<ApiResponse<ProblemSetResponse>> {
+        call.enqueue(object : Callback<ApiResponse<ProblemSetResponse>> {
             override fun onResponse(
                 call: Call<ApiResponse<ProblemSetResponse>>,
-                response: retrofit2.Response<ApiResponse<ProblemSetResponse>>
+                response: Response<ApiResponse<ProblemSetResponse>>
             ) {
-                if (response.isSuccessful && response.body() != null) {
-                    allProblems = response.body()!!.result.problems
+                if (response.isSuccessful && response.body()?.result != null) {
+                    val result = response.body()!!.result
+                    allProblems = result.problems
+                    allStatistics = result.problemStatistics
                     filteredProblems = allProblems
-                    adapter.updateList(filteredProblems)
+
+                    adapter = ProblemsAdapter(filteredProblems, allStatistics)
+                    binding.recyclerProblems.adapter = adapter
                 } else {
                     Toast.makeText(requireContext(), "Failed to load problems", Toast.LENGTH_SHORT).show()
                 }
@@ -89,7 +97,6 @@ class ProblemsFragment : Fragment() {
             }
         })
     }
-
 
     private fun applyFilters() {
         val minRating = binding.editMinRating.text.toString().toIntOrNull() ?: Int.MIN_VALUE
@@ -125,6 +132,7 @@ class ProblemsFragment : Fragment() {
             "Oldest First" -> filteredProblems.sortedBy { it.contestId }
             else -> filteredProblems
         }
+
         adapter.updateList(filteredProblems)
     }
 

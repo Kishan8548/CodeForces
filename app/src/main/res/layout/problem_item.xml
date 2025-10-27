@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:elevation="4dp">
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,26 +17,40 @@
             android:id="@+id/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Problem Title"
+            android:text="Problem Name"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginBottom="2dp"/>
 
         <TextView
-            android:id="@+id/textTags"
+            android:id="@+id/textIndex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="dp, graphs"
-            android:textSize="13sp"
-            android:textColor="#666"/>
+            android:text="Index: A"
+            android:textSize="14sp"
+            android:layout_marginBottom="2dp"/>
 
         <TextView
             android:id="@+id/textRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rating: 1600"
-            android:textColor="@color/pupil"
+            android:text="Rating: 1200"
             android:textSize="14sp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginBottom="2dp"/>
 
+        <TextView
+            android:id="@+id/textTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tags: math, greedy"
+            android:textSize="13sp"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:id="@+id/textSolved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solved by: 5123 users"
+            android:textSize="13sp"/>
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>
