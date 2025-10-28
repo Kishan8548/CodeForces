@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codeforces.R
 import com.example.codeforces.models.Problem
@@ -13,10 +14,11 @@ import com.example.codeforces.models.ProblemStatistics
 
 class ProblemsAdapter(
     private var list: List<Problem>,
-    private val statistics: List<ProblemStatistics>
+    private var statistics: List<ProblemStatistics>
 ) : RecyclerView.Adapter<ProblemsAdapter.ProblemViewHolder>() {
 
-    private val solvedMap = statistics.associateBy({ it.contestId to it.index }, { it.solvedCount })
+    private var solvedMap: Map<Pair<Int?, String?>, Int> =
+        statistics.associateBy({ it.contestId to it.index }, { it.solvedCount })
 
     inner class ProblemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.textTitle)
@@ -38,13 +40,15 @@ class ProblemsAdapter(
         holder.title.text = item.name
         holder.index.text = "Index: ${item.index}"
         holder.tags.text = "Tags: ${item.tags.joinToString(", ")}"
-        holder.rating.text = if ((item.rating ?: 0) > 0) "Rating: ${item.rating}" else "Unrated"
+        holder.rating.text =
+            if ((item.rating ?: 0) > 0) "Rating: ${item.rating}" else "Unrated"
 
         val solvedCount = solvedMap[item.contestId to item.index] ?: 0
         holder.solved.text = "Solved by: $solvedCount users"
 
         holder.itemView.setOnClickListener {
-            val url = "https://codeforces.com/problemset/problem/${item.contestId}/${item.index}"
+            val url =
+                "https://codeforces.com/problemset/problem/${item.contestId}/${item.index}"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             holder.itemView.context.startActivity(intent)
         }
@@ -52,8 +56,30 @@ class ProblemsAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    fun updateList(newList: List<Problem>) {
+    /**
+     * Efficiently updates the list with smooth transitions
+     */
+    fun updateList(newList: List<Problem>, newStatistics: List<ProblemStatistics>? = null) {
+        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize() = list.size
+            override fun getNewListSize() = newList.size
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return list[oldItemPosition].contestId == newList[newItemPosition].contestId &&
+                        list[oldItemPosition].index == newList[newItemPosition].index
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return list[oldItemPosition] == newList[newItemPosition]
+            }
+        })
+
         list = newList
-        notifyDataSetChanged()
+        newStatistics?.let {
+            statistics = it
+            solvedMap = statistics.associateBy({ it.contestId to it.index }, { it.solvedCount })
+        }
+
+        diffResult.dispatchUpdatesTo(this)
     }
 }

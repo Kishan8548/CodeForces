@@ -72,14 +72,26 @@ class ProblemsFragment : Fragment() {
         }
     }
 
+
     private fun fetchProblems() {
+        // Show loader immediately
+        binding.progressBarContests.visibility = View.VISIBLE
+        binding.recyclerProblems.visibility = View.GONE
+
         val call = RetrofitInstance.api.getProblemSet()
+
         call.enqueue(object : Callback<ApiResponse<ProblemSetResponse>> {
             override fun onResponse(
                 call: Call<ApiResponse<ProblemSetResponse>>,
                 response: Response<ApiResponse<ProblemSetResponse>>
             ) {
+
+
+                binding.progressBarContests.visibility = View.GONE // Hide loader
+
                 if (response.isSuccessful && response.body()?.result != null) {
+                    binding.recyclerProblems.visibility = View.VISIBLE // Show content
+
                     val result = response.body()!!.result
                     allProblems = result.problems
                     allStatistics = result.problemStatistics
@@ -93,10 +105,15 @@ class ProblemsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ApiResponse<ProblemSetResponse>>, t: Throwable) {
+                if (!isAdded || _binding == null) return
+                binding.progressBarContests.visibility = View.GONE // Hide loader
                 Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+
+
 
     private fun applyFilters() {
         val minRating = binding.editMinRating.text.toString().toIntOrNull() ?: Int.MIN_VALUE
@@ -133,7 +150,7 @@ class ProblemsFragment : Fragment() {
             else -> filteredProblems
         }
 
-        adapter.updateList(filteredProblems)
+        adapter.updateList(filteredProblems,allStatistics)
     }
 
     override fun onDestroyView() {
