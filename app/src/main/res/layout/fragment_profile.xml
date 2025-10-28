@@ -1,144 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:padding="16dp">
-
-
-    <com.google.android.material.card.MaterialCardView
+    >
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerProblems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:padding="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp">
+        android:visibility="gone"/>
 
-        <LinearLayout
-            android:id="@+id/LinearContainer"
+    <!-- Main ScrollView content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginVertical="14dp"
-            android:gravity="center_horizontal">
+            android:layout_margin="8dp"
+            android:padding="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="4dp">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_profile" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tvHandle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/LinearContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="kishan_455"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                android:layout_marginTop="8dp"/>
+                android:orientation="vertical"
+                android:layout_marginVertical="14dp"
+                android:gravity="center_horizontal">
 
-            <TextView
-                android:id="@+id/tvFullName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kishan Garhwal"
-                android:textSize="16sp"
-                android:layout_marginBottom="4dp"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp">
 
-            <TextView
-                android:id="@+id/tvRank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pupil"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="16sp"
-                android:layout_marginTop="4dp"/>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_profile" />
+                </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/tvContestRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Contest rating: 3000 (max. pupil, 3000)"
-                android:layout_marginTop="8dp"
-                android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tvHandle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kishan_455"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:layout_marginTop="8dp"/>
 
-            <TextView
-                android:id="@+id/tvContribution"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Contribution: 0"
-                android:layout_marginTop="4dp"
-                android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kishan Garhwal"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp"/>
 
-            <TextView
-                android:id="@+id/tvFriends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Friend of: x users"
-                android:layout_marginTop="4dp"
-                android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tvRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pupil"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"/>
 
-            <TextView
-                android:id="@+id/tvCity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="City: null"
-                android:layout_marginTop="4dp"
-                android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/tvContestRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contest rating: 3000 (max. pupil, 3000)"
+                    android:layout_marginTop="8dp"
+                    android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/tvCountry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Country: null"
-                android:layout_marginTop="4dp"
-                android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/tvContribution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contribution: 0"
+                    android:layout_marginTop="4dp"
+                    android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/tvOrganization"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Organization: Unknown Academy"
-                android:layout_marginTop="4dp"
-                android:textSize="14sp"/>
+                <TextView
+                    android:id="@+id/tvFriends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Friend of: x users"
+                    android:layout_marginTop="4dp"
+                    android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/tvBlogEntries"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blogs: 0"
-                android:layout_marginTop="4dp"
-                android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tvCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City: null"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14sp"/>
 
-            <TextView
-                android:id="@+id/tvRatedList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Active rated users: 0"
-                android:layout_marginTop="4dp"
-                android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tvCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country: null"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14sp"/>
 
-            <Button
-                android:id="@+id/btnChangeHandle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change Handle"
-                android:layout_marginTop="16dp" />
+                <TextView
+                    android:id="@+id/tvOrganization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Organization: Unknown Academy"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14sp"/>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvBlogEntries"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blogs: 0"
+                    android:layout_marginTop="4dp"
+                    android:textSize="15sp"/>
 
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/tvRatedList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Active rated users: 0"
+                    android:layout_marginTop="4dp"
+                    android:textSize="15sp"/>
 
-</ScrollView>
+                <Button
+                    android:id="@+id/btnChangeHandle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Handle"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </ScrollView>
 
+    <!-- Loader on top of everything -->
+    <ProgressBar
+        android:id="@+id/progressBarProfile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</FrameLayout>

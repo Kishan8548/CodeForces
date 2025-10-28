@@ -12,7 +12,6 @@ import com.example.codeforces.api.RetrofitInstance
 import com.example.codeforces.databinding.FragmentContestBinding
 import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.Contest
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +36,7 @@ class ContestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         fetchContestList()
+
         binding.btnSort.setOnClickListener {
             showSortOptions()
         }
@@ -49,33 +49,64 @@ class ContestFragment : Fragment() {
     }
 
     private fun fetchContestList() {
+        // ✅ Step 1: Show loader, hide list
         binding.progressBarContests.visibility = View.VISIBLE
+        binding.recyclerViewContests.visibility = View.GONE
 
-        RetrofitInstance.api.getContestList().enqueue(object : Callback<ApiResponse<List<Contest>>> {
-            override fun onResponse(
-                call: Call<ApiResponse<List<Contest>>>,
-                response: Response<ApiResponse<List<Contest>>>
-            ) {
-                binding.progressBarContests.visibility = View.GONE
-                if (response.isSuccessful && response.body() != null) {
-                    val contests = response.body()!!.result ?: emptyList()
-                    allContests.clear()
-                    allContests.addAll(contests) // keep full list for sorting
-                    adapter.submitList(contests)
-                } else {
-                    Toast.makeText(requireContext(), "Failed to load contests", Toast.LENGTH_SHORT).show()
+        try {
+            RetrofitInstance.api.getContestList().enqueue(object : Callback<ApiResponse<List<Contest>>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<List<Contest>>>,
+                    response: Response<ApiResponse<List<Contest>>>
+                ) {
+                    // ✅ Step 2: Prevent crash if fragment not attached
+                    if (!isAdded || _binding == null) return
+
+                    // ✅ Step 3: Hide loader after response
+                    binding.progressBarContests.visibility = View.GONE
+
+                    if (response.isSuccessful) {
+                        val contests = response.body()?.result
+
+                        if (!contests.isNullOrEmpty()) {
+                            // ✅ Step 4: Update adapter safely
+                            allContests.clear()
+                            allContests.addAll(contests)
+                            adapter.submitList(contests)
+
+                            // Show recycler view
+                            binding.recyclerViewContests.visibility = View.VISIBLE
+                        } else {
+                            showError("No contests found")
+                        }
+                    } else {
+                        showError("Failed to load contests (Code: ${response.code()})")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ApiResponse<List<Contest>>>, t: Throwable) {
+                override fun onFailure(call: Call<ApiResponse<List<Contest>>>, t: Throwable) {
+                    if (!isAdded || _binding == null) return
+                    binding.progressBarContests.visibility = View.GONE
+                    showError("Network Error: ${t.message}")
+                }
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+            if (isAdded && _binding != null) {
                 binding.progressBarContests.visibility = View.GONE
-                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                showError("Unexpected Error: ${e.message}")
             }
-        })
+        }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        binding.recyclerViewContests.visibility = View.GONE
     }
 
     private fun showSortOptions() {
         val options = arrayOf("All", "Upcoming", "Ongoing", "Finished")
+
         AlertDialog.Builder(requireContext())
             .setTitle("Sort Contests")
             .setItems(options) { _, which ->
@@ -94,15 +125,13 @@ class ContestFragment : Fragment() {
                     }
                     else -> {
                         Toast.makeText(requireContext(), "Showing All Contests", Toast.LENGTH_SHORT).show()
-                        allContests                                 // All
+                        allContests // All
                     }
                 }
                 adapter.submitList(filtered)
             }
             .show()
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

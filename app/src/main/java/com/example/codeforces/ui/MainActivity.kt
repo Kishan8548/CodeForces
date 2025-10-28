@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(permission), 101)
             } else {
-                Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show()
+
             }
         } else {
             Toast.makeText(this, "Below Android 13 — no permission needed", Toast.LENGTH_SHORT).show()

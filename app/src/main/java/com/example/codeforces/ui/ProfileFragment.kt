@@ -67,6 +67,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun fetchProfileData(handle: String) {
 
+        binding.progressBarProfile.visibility = View.VISIBLE
+        binding.recyclerProblems.visibility = View.GONE
+
         val call = RetrofitInstance.api.getUserInfo(handle)
         call.enqueue(object : Callback<ApiResponse<List<User>>> {
             override fun onResponse(
@@ -74,10 +77,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 response: Response<ApiResponse<List<User>>>
 
             ) {
+
+
+
+
+                binding.progressBarProfile.visibility = View.GONE
                 if (response.isSuccessful && response.body()?.status == "OK") {
                     val user = response.body()?.result?.firstOrNull()
                     if (user != null) {
                         currentUser = user
+                        binding.recyclerProblems.visibility = View.VISIBLE
                         updateUI(user)
                     }
                     else {
@@ -89,6 +98,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
 
             override fun onFailure(call: Call<ApiResponse<List<User>>>, t: Throwable) {
+                if (!isAdded || _binding == null) return
+                binding.progressBarProfile.visibility = View.GONE
+
                 Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
