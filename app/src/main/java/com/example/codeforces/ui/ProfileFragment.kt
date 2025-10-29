@@ -78,7 +78,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             ) {
 
-
+                if (!isAdded || _binding == null) return
 
 
                 binding.progressBarProfile.visibility = View.GONE
