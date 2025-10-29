@@ -86,7 +86,7 @@ class ProblemsFragment : Fragment() {
                 response: Response<ApiResponse<ProblemSetResponse>>
             ) {
 
-
+                if (!isAdded || _binding == null) return
                 binding.progressBarContests.visibility = View.GONE // Hide loader
 
                 if (response.isSuccessful && response.body()?.result != null) {
