@@ -1,21 +1,58 @@
 package com.example.codeforces.ui
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.codeforces.api.RetrofitInstance
 import com.example.codeforces.databinding.ActivityEnterUsernameBinding
+import com.example.codeforces.MainViewModel
 import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.User
 
 class EnterUsernameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEnterUsernameBinding
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                !viewModel.isReady.value
+            }
+            setOnExitAnimationListener { screen ->
+                val zoomX = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_X,
+                    0.4f,
+                    0.0f
+                )
+                zoomX.interpolator = OvershootInterpolator()
+                zoomX.duration = 500L
+                zoomX.doOnEnd { screen.remove() }
+
+                val zoomY = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_Y,
+                    0.4f,
+                    0.0f
+                )
+                zoomY.interpolator = OvershootInterpolator()
+                zoomY.duration = 500L
+                zoomY.doOnEnd { screen.remove() }
+
+                zoomX.start()
+                zoomY.start()
+            }
+        }
         enableEdgeToEdge()
 
         val prefs = getSharedPreferences("CodeforcesPrefs", MODE_PRIVATE)
