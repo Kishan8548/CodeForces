@@ -40,12 +40,11 @@ This application is built natively for Android using modern best practices and l
 
 ---
 
-## 🤝 Contributing (FOSS Weekend)
+## 🤝 Contributing
 
-We enthusiastically welcome community contributions, especially during **FOSS Weekend**! Whether it's fixing a UI bug, cleaning up architecture, or adding a new feature—we want your help.
+We enthusiastically welcome community contributions! Whether it's fixing a UI bug, cleaning up architecture, or adding a new feature—we want your help.
 
-1. **Check out the Issues** tab for beginner-friendly tasks labelled `foss-weekend`, `easy`, or `good first issue`.
-2. Please read our detailed [CONTRIBUTING.md](./CONTRIBUTING.md) guide before you start. It explains exactly how to submit a Pull Request successfully!
+Please read our detailed [CONTRIBUTING.md](./CONTRIBUTING.md) guide before you start. It explains exactly how to submit a Pull Request successfully!
 
 ## 📜 License
 
