@@ -1,4 +1,6 @@
 package com.example.codeforces.ui
+import com.google.android.material.chip.Chip
+import androidx.core.view.children
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.codeforces.R
 import com.example.codeforces.adapter.ProblemsAdapter
 import com.example.codeforces.api.RetrofitInstance
 import com.example.codeforces.databinding.FragmentProblemsBinding
@@ -23,6 +26,22 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 class ProblemsFragment : Fragment() {
+    private fun setupChips() {
+        val tags = resources.getStringArray(R.array.problem_tags)
+
+        for (tag in tags) {
+            val chip = Chip(requireContext()).apply {
+                text = tag
+                isCheckable = true
+
+
+                setOnCheckedChangeListener { _, _ ->
+                    applyFilters()
+                }
+            }
+            binding.chipGroupTags.addView(chip)
+        }
+    }
 
     private var _binding: FragmentProblemsBinding? = null
     private val binding get() = _binding!!
@@ -44,6 +63,7 @@ class ProblemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         adapter = ProblemsAdapter(emptyList(), emptyList()) // initially empty
         binding.recyclerProblems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerProblems.adapter = adapter
@@ -53,8 +73,11 @@ class ProblemsFragment : Fragment() {
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
             sortOptions
+
+
         )
 
+        setupChips()
         fetchProblems()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -140,18 +163,12 @@ class ProblemsFragment : Fragment() {
     }
 
     private fun getSelectedTags(): List<String> {
-        val tagIds = listOf(
-            binding.cbMath, binding.cbGreedy, binding.cbImplementation, binding.cbBruteForce,
-            binding.cbConstructive, binding.cbStrings, binding.cbSortings, binding.cbNumberTheory,
-            binding.cbBinarySearch, binding.cbGames, binding.cbDP, binding.cbTwoPointers,
-            binding.cbDataStructures, binding.cbCombinatorics, binding.cbGeometry,
-            binding.cbTernarySearch, binding.cbSpecial, binding.cbBitmasks, binding.cbDFS,
-            binding.cbGraphMatchings, binding.cbGraphs
-        )
-
-        return tagIds.filter { it.isChecked }.map { it.text.toString() }
+        return binding.chipGroupTags.children
+            .filterIsInstance<Chip>()
+            .filter { it.isChecked }
+            .map { it.text.toString() }
+            .toList()
     }
-
     private fun sortProblems() {
         filteredProblems = when (binding.spinnerSortTime.selectedItem.toString()) {
             "Newest First" -> filteredProblems.sortedByDescending { it.contestId }
