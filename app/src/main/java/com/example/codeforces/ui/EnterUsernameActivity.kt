@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
+import android.view.KeyEvent
+import android.widget.TextView
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -68,6 +71,15 @@ class EnterUsernameActivity : AppCompatActivity() {
 
         binding = ActivityEnterUsernameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.etUsername.setOnEditorActionListener { _, actionId, event ->
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)){
+                binding.btnSubmit.performClick()
+                true
+            }else{
+                false
+            }
+        }
 
         binding.btnSubmit.setOnClickListener {
             val handle = binding.etUsername.text.toString().trim()
