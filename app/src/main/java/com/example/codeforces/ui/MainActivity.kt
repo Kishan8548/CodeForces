@@ -36,11 +36,21 @@ class MainActivity : AppCompatActivity() {
 
         setCurrentFragment(profileFragment)
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+        binding.bottomNavigation.setOnItemSelectedListener {
+            it->
             when (it.itemId) {
-                R.id.nav_profile -> setCurrentFragment(profileFragment)
-                R.id.nav_contest -> setCurrentFragment(contestFragment)
-                R.id.nav_problem -> setCurrentFragment(problemsFragment)
+                R.id.nav_profile -> {
+                    setCurrentFragment(profileFragment)
+                    true
+                }
+                R.id.nav_contest -> {
+                    setCurrentFragment(contestFragment)
+                    true
+                }
+                R.id.nav_problem -> {
+                    setCurrentFragment(problemsFragment)
+                    true
+                }
             }
             true
         }
