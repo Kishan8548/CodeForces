@@ -72,7 +72,7 @@ class ContestFragment : Fragment() {
                             // ✅ Step 4: Update adapter safely
                             allContests.clear()
                             allContests.addAll(contests)
-                            adapter.submitList(contests)
+                            adapter.submitList(contests.sortedBy { it.startTimeSeconds })
 
                             // Show recycler view
                             binding.recyclerViewContests.visibility = View.VISIBLE
@@ -127,7 +127,7 @@ class ContestFragment : Fragment() {
                         Toast.makeText(requireContext(), "Showing All Contests", Toast.LENGTH_SHORT).show()
                         allContests // All
                     }
-                }
+                }.sortedBy { it.startTimeSeconds }
                 adapter.submitList(filtered)
             }
             .show()
