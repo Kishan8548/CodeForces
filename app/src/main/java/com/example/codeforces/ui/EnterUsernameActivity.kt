@@ -19,6 +19,8 @@ import com.example.codeforces.databinding.ActivityEnterUsernameBinding
 import com.example.codeforces.MainViewModel
 import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.User
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class EnterUsernameActivity : AppCompatActivity() {
 
@@ -103,23 +105,20 @@ class EnterUsernameActivity : AppCompatActivity() {
     }
 
     private fun isValidUser(handle: String, onResult: (Boolean) -> Unit) {
-        RetrofitInstance.api.getUserInfo(handle)
-            .enqueue(object : retrofit2.Callback<ApiResponse<List<User>>> {
-                override fun onResponse(
-                    call: retrofit2.Call<ApiResponse<List<User>>>,
-                    response: retrofit2.Response<ApiResponse<List<User>>>
-                ) {
-                    val body = response.body()
-                    val isValid = response.isSuccessful && body?.status == "OK" && !body.result.isNullOrEmpty()
-                    onResult(isValid)
-                }
+        lifecycleScope.launch {
 
-                override fun onFailure(
-                    call: retrofit2.Call<ApiResponse<List<User>>>,
-                    t: Throwable
-                ) {
-                    onResult(false)
-                }
-            })
+            try {
+                val response = RetrofitInstance.api.getUserInfo(handle)
+
+                val isValid = response.isSuccessful &&
+                        response.body()?.status == "OK" &&
+                        !response.body()?.result.isNullOrEmpty()
+
+                onResult(isValid)
+
+            } catch (e: Exception) {
+                onResult(false)
+            }
+        }
     }
 }

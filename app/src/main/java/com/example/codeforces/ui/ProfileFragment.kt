@@ -70,40 +70,39 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.progressBarProfile.visibility = View.VISIBLE
         binding.recyclerProblems.visibility = View.GONE
 
-        val call = RetrofitInstance.api.getUserInfo(handle)
-        call.enqueue(object : Callback<ApiResponse<List<User>>> {
-            override fun onResponse(
-                call: Call<ApiResponse<List<User>>>,
-                response: Response<ApiResponse<List<User>>>
+        lifecycleScope.launch {
 
-            ) {
+            try {
+                val response = RetrofitInstance.api.getUserInfo(handle)
 
-                if (!isAdded || _binding == null) return
-
+                if (!isAdded || _binding == null) return@launch
 
                 binding.progressBarProfile.visibility = View.GONE
+
                 if (response.isSuccessful && response.body()?.status == "OK") {
+
                     val user = response.body()?.result?.firstOrNull()
+
                     if (user != null) {
                         currentUser = user
                         binding.recyclerProblems.visibility = View.VISIBLE
                         updateUI(user)
-                    }
-                    else {
+                    } else {
                         Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
                     }
+
                 } else {
                     Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onFailure(call: Call<ApiResponse<List<User>>>, t: Throwable) {
-                if (!isAdded || _binding == null) return
+            } catch (e: Exception) {
+
+                if (!isAdded || _binding == null) return@launch
+
                 binding.progressBarProfile.visibility = View.GONE
-
-                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
     private fun updateUI(user: User) {

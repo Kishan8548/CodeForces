@@ -28,10 +28,10 @@ interface CodeforcesApi {
 
     // ----- Contest Methods -----
     @GET("contest.list")
-    fun getContestList(
+    suspend fun getContestList(
         @Query("gym") gym: Boolean = false,
         @Query("groupCode") groupCode: String? = null
-    ): Call<ApiResponse<List<Contest>>>
+    ): retrofit2.Response<ApiResponse<List<Contest>>>
 
     @GET("contest.ratingChanges")
     fun getContestRatingChanges(
@@ -61,10 +61,10 @@ interface CodeforcesApi {
 
     // ----- Problemset Methods -----
     @GET("problemset.problems")
-    fun getProblemSet(
+    suspend fun getProblemSet(
         @Query("tags") tags: String? = null,
         @Query("problemsetName") problemsetName: String? = null
-    ): Call<ApiResponse<ProblemSetResponse>>
+    ): retrofit2.Response<ApiResponse<ProblemSetResponse>>
 
     @GET("problemset.recentStatus")
     fun getRecentProblemStatus(
@@ -85,10 +85,10 @@ interface CodeforcesApi {
     ): Call<ApiResponse<List<String>>>
 
     @GET("user.info")
-    fun getUserInfo(
+    suspend fun getUserInfo(
         @Query("handles") handles: String,
         @Query("checkHistoricHandles") checkHistoricHandles: Boolean = true
-    ): Call<ApiResponse<List<User>>>
+    ): retrofit2.Response<ApiResponse<List<User>>>
 
     @GET("user.ratedList")
     fun getUserRatedList(

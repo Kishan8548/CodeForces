@@ -19,6 +19,8 @@ import com.example.codeforces.models.ProblemStatistics
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class ProblemsFragment : Fragment() {
 
@@ -82,21 +84,20 @@ class ProblemsFragment : Fragment() {
         binding.progressBarContests.visibility = View.VISIBLE
         binding.recyclerProblems.visibility = View.GONE
 
-        val call = RetrofitInstance.api.getProblemSet()
+        lifecycleScope.launch {
 
-        call.enqueue(object : Callback<ApiResponse<ProblemSetResponse>> {
-            override fun onResponse(
-                call: Call<ApiResponse<ProblemSetResponse>>,
-                response: Response<ApiResponse<ProblemSetResponse>>
-            ) {
+            try {
+                val response = RetrofitInstance.api.getProblemSet()
 
-                if (!isAdded || _binding == null) return
-                binding.progressBarContests.visibility = View.GONE // Hide loader
+                if (!isAdded || _binding == null) return@launch
+
+                binding.progressBarContests.visibility = View.GONE
 
                 binding.swipeRefreshLayout.isRefreshing = false
 
                 if (response.isSuccessful && response.body()?.result != null) {
-                    binding.recyclerProblems.visibility = View.VISIBLE // Show content
+
+                    binding.recyclerProblems.visibility = View.VISIBLE
 
                     val result = response.body()!!.result
                     allProblems = result.problems
@@ -105,18 +106,19 @@ class ProblemsFragment : Fragment() {
 
                     adapter = ProblemsAdapter(filteredProblems, allStatistics)
                     binding.recyclerProblems.adapter = adapter
+
                 } else {
                     Toast.makeText(requireContext(), "Failed to load problems", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onFailure(call: Call<ApiResponse<ProblemSetResponse>>, t: Throwable) {
-                if (!isAdded || _binding == null) return
-                binding.progressBarContests.visibility = View.GONE // Hide loader
-                binding.swipeRefreshLayout.isRefreshing = false
-                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+
+                if (!isAdded || _binding == null) return@launch
+
+                binding.progressBarContests.visibility = View.GONE
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
 

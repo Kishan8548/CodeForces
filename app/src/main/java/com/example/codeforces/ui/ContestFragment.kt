@@ -18,6 +18,8 @@ import com.example.codeforces.models.Contest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import android.util.Log
 
 class ContestFragment : Fragment() {
@@ -82,41 +84,41 @@ class ContestFragment : Fragment() {
         binding.emptyView.visibility = View.GONE
 
         try {
-            RetrofitInstance.api.getContestList().enqueue(object : Callback<ApiResponse<List<Contest>>> {
-                override fun onResponse(
-                    call: Call<ApiResponse<List<Contest>>>,
-                    response: Response<ApiResponse<List<Contest>>>
-                ) {
-                    // ✅ Step 2: Prevent crash if fragment not attached
-                    if (!isAdded || _binding == null) return
+            lifecycleScope.launch {
 
-                    // ✅ Step 3: Hide loader after response
+                try {
+                    val response = RetrofitInstance.api.getContestList()
+
+                    if (!isAdded || _binding == null) return@launch
+
                     binding.progressBarContests.visibility = View.GONE
 
                     if (response.isSuccessful) {
+
                         val contests = response.body()?.result
 
                         if (!contests.isNullOrEmpty()) {
-                            // ✅ Step 4: Update adapter safely
+
                             allContests.clear()
                             allContests.addAll(contests)
                             applyFilter(currentFilter)
                             adapter.submitList(contests.sortedBy { it.startTimeSeconds ?: 0 })
 
-                            // Show recycler view
                             binding.recyclerViewContests.visibility = View.VISIBLE
                             binding.emptyView.visibility = View.GONE
                         } else {
                             binding.emptyView.visibility = View.VISIBLE
                             binding.recyclerViewContests.visibility = View.GONE
                         }
+
                     } else {
                         showError("Failed to load contests (Code: ${response.code()})")
                     }
-                }
 
-                override fun onFailure(call: Call<ApiResponse<List<Contest>>>, t: Throwable) {
-                    if (!isAdded || _binding == null) return
+                } catch (e: Exception) {
+
+                    if (!isAdded || _binding == null) return@launch
+
                     binding.progressBarContests.visibility = View.GONE
 
                     binding.emptyView.visibility = View.VISIBLE
@@ -124,7 +126,7 @@ class ContestFragment : Fragment() {
 
                     showError("Network Error: ${t.message}")
                 }
-            })
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             if (isAdded && _binding != null) {
