@@ -10,11 +10,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
         android:clipToPadding="false"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"/>
-      
+        android:layout_marginLeft="20dp">
+
         <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,24 +65,29 @@
 
     </LinearLayout>
 
-    <!-- Centered Loader (properly this time) -->
-    <ProgressBar
-        android:id="@+id/progressBarContests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
+    <!-- ✅ Shimmer Loader (overlay) -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerContests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:shimmer_duration="1200">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Filter"
-        app:cornerRadius="12dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="16dp"
-        app:icon="@drawable/ic_sort"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <include layout="@layout/item_contest_skeleton" />
+            <include layout="@layout/item_contest_skeleton" />
+            <include layout="@layout/item_contest_skeleton" />
+            <include layout="@layout/item_contest_skeleton" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- Empty View -->
     <LinearLayout
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
@@ -91,11 +96,13 @@
         android:visibility="gone"
         android:gravity="center"
         android:padding="24dp">
+
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/animated_logo"
             android:contentDescription="No Contest"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

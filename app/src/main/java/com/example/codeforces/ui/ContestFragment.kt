@@ -5,22 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.codeforces.api.RetrofitInstance
 import com.example.codeforces.databinding.FragmentContestBinding
-import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.Contest
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-import android.util.Log
 
 class ContestFragment : Fragment() {
 
@@ -29,7 +21,6 @@ class ContestFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: ContestAdapter
     private val allContests = mutableListOf<Contest>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +36,8 @@ class ContestFragment : Fragment() {
         setupRecyclerView()
         fetchContestList()
         setupDropdown()
-
     }
+
     private fun setupDropdown() {
         val options = arrayOf("All", "Upcoming", "Ongoing", "Finished")
 
@@ -58,12 +49,10 @@ class ContestFragment : Fragment() {
 
         binding.dropdownSort.setAdapter(adapterDropdown)
 
-        // Force dropdown to show on click
         binding.dropdownSort.setOnClickListener {
             binding.dropdownSort.showDropDown()
         }
 
-        // Default value
         binding.dropdownSort.setText(options[0], false)
 
         binding.dropdownSort.setOnItemClickListener { _, _, position, _ ->
@@ -78,64 +67,51 @@ class ContestFragment : Fragment() {
     }
 
     private fun fetchContestList() {
-        // ✅ Step 1: Show loader, hide list
-        binding.progressBarContests.visibility = View.VISIBLE
+        // Show shimmer loader
+        binding.shimmerContests.startShimmer()
+        binding.shimmerContests.visibility = View.VISIBLE
         binding.recyclerViewContests.visibility = View.GONE
         binding.emptyView.visibility = View.GONE
 
-        try {
-            lifecycleScope.launch {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitInstance.api.getContestList()
 
-                try {
-                    val response = RetrofitInstance.api.getContestList()
+                if (!isAdded || _binding == null) return@launch
 
-                    if (!isAdded || _binding == null) return@launch
+                // Hide shimmer
+                binding.shimmerContests.stopShimmer()
+                binding.shimmerContests.visibility = View.GONE
 
-                    binding.progressBarContests.visibility = View.GONE
+                if (response.isSuccessful) {
+                    val contests = response.body()?.result
 
-                    if (response.isSuccessful) {
+                    if (!contests.isNullOrEmpty()) {
+                        allContests.clear()
+                        allContests.addAll(contests)
 
-                        val contests = response.body()?.result
+                        applyFilter(currentFilter)
 
-                        if (!contests.isNullOrEmpty()) {
-
-                            allContests.clear()
-                            allContests.addAll(contests)
-                            applyFilter(currentFilter)
-                            adapter.submitList(contests.sortedBy { it.startTimeSeconds ?: 0 })
-
-                            binding.recyclerViewContests.visibility = View.VISIBLE
-                            binding.emptyView.visibility = View.GONE
-                        } else {
-                            binding.emptyView.visibility = View.VISIBLE
-                            binding.recyclerViewContests.visibility = View.GONE
-                        }
-
+                        binding.recyclerViewContests.visibility = View.VISIBLE
+                        binding.emptyView.visibility = View.GONE
                     } else {
-                        showError("Failed to load contests (Code: ${response.code()})")
+                        binding.emptyView.visibility = View.VISIBLE
+                        binding.recyclerViewContests.visibility = View.GONE
                     }
-
-                } catch (e: Exception) {
-
-                    if (!isAdded || _binding == null) return@launch
-
-                    binding.progressBarContests.visibility = View.GONE
-
-                    binding.emptyView.visibility = View.VISIBLE
-                    binding.recyclerViewContests.visibility = View.GONE
-
-                    showError("Network Error: ${t.message}")
+                } else {
+                    showError("Failed to load contests (Code: ${response.code()})")
                 }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (isAdded && _binding != null) {
-                binding.progressBarContests.visibility = View.GONE
+
+            } catch (e: Exception) {
+                if (!isAdded || _binding == null) return@launch
+
+                binding.shimmerContests.stopShimmer()
+                binding.shimmerContests.visibility = View.GONE
 
                 binding.emptyView.visibility = View.VISIBLE
                 binding.recyclerViewContests.visibility = View.GONE
 
-                showError("Unexpected Error: ${e.message}")
+                showError("Network Error: ${e.message}")
             }
         }
     }
@@ -145,9 +121,9 @@ class ContestFragment : Fragment() {
         binding.recyclerViewContests.visibility = View.GONE
     }
 
-
     private fun applyFilter(position: Int) {
         currentFilter = position
+
         val filteredList = when (position) {
             1 -> allContests.filter { it.phase == "BEFORE" }
             2 -> allContests.filter { it.phase == "CODING" }
@@ -155,7 +131,7 @@ class ContestFragment : Fragment() {
             else -> allContests
         }
 
-        adapter.submitList(filteredList.toList())
+        adapter.submitList(filteredList)
 
         val message = when (position) {
             1 -> "Showing Upcoming Contests"
