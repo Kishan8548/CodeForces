@@ -1,10 +1,10 @@
 package com.example.codeforces.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -22,6 +22,7 @@ import android.util.Log
 
 class ContestFragment : Fragment() {
 
+    private var currentFilter = 0 // 0 = All, 1 = Upcoming, 2 = Ongoing, 3 = Finished
     private var _binding: FragmentContestBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ContestAdapter
@@ -41,9 +42,30 @@ class ContestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         fetchContestList()
+        setupDropdown()
 
-        binding.btnSort.setOnClickListener {
-            showSortOptions()
+    }
+    private fun setupDropdown() {
+        val options = arrayOf("All", "Upcoming", "Ongoing", "Finished")
+
+        val adapterDropdown = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            options
+        )
+
+        binding.dropdownSort.setAdapter(adapterDropdown)
+
+        // Force dropdown to show on click
+        binding.dropdownSort.setOnClickListener {
+            binding.dropdownSort.showDropDown()
+        }
+
+        // Default value
+        binding.dropdownSort.setText(options[0], false)
+
+        binding.dropdownSort.setOnItemClickListener { _, _, position, _ ->
+            applyFilter(position)
         }
     }
 
@@ -78,7 +100,8 @@ class ContestFragment : Fragment() {
                             // ✅ Step 4: Update adapter safely
                             allContests.clear()
                             allContests.addAll(contests)
-                            adapter.submitList(contests.sortedBy { it.startTimeSeconds })
+                            applyFilter(currentFilter)
+                            adapter.submitList(contests.sortedBy { it.startTimeSeconds ?: 0 })
 
                             // Show recycler view
                             binding.recyclerViewContests.visibility = View.VISIBLE
@@ -120,42 +143,26 @@ class ContestFragment : Fragment() {
         binding.recyclerViewContests.visibility = View.GONE
     }
 
-    private fun showSortOptions() {
-        val options = arrayOf("All", "Upcoming", "Ongoing", "Finished")
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("Sort Contests")
-            .setItems(options) { _, which ->
-                val filtered = when (which) {
-                    1 -> {
-                        Toast.makeText(requireContext(), "Showing Upcoming Contests", Toast.LENGTH_SHORT).show()
-                        allContests.filter { it.phase == "BEFORE" }    // Upcoming
-                    }
-                    2 -> {
-                        Toast.makeText(requireContext(), "Showing Ongoing Contests", Toast.LENGTH_SHORT).show()
-                        allContests.filter { it.phase == "CODING" }    // Ongoing
-                    }
-                    3 -> {
-                        Toast.makeText(requireContext(), "Showing Finished Contests", Toast.LENGTH_SHORT).show()
-                        allContests.filter { it.phase == "FINISHED" }  // Finished
-                    }
-                    else -> {
-                        Toast.makeText(requireContext(), "Showing All Contests", Toast.LENGTH_SHORT).show()
-                        allContests // All
-                    }
-                }
-                if(filtered.isEmpty()){
-                    binding.recyclerViewContests.visibility = View.GONE
-                    binding.emptyView.visibility = View.VISIBLE
-                }
-                else {
-                    binding.recyclerViewContests.visibility = View.VISIBLE
-                    binding.emptyView.visibility = View.GONE
-                    adapter.submitList(filtered)
-                }.sortedBy { it.startTimeSeconds }
-                adapter.submitList(filtered)
-            }
-            .show()
+    private fun applyFilter(position: Int) {
+        currentFilter = position
+        val filteredList = when (position) {
+            1 -> allContests.filter { it.phase == "BEFORE" }
+            2 -> allContests.filter { it.phase == "CODING" }
+            3 -> allContests.filter { it.phase == "FINISHED" }
+            else -> allContests
+        }
+
+        adapter.submitList(filteredList.toList())
+
+        val message = when (position) {
+            1 -> "Showing Upcoming Contests"
+            2 -> "Showing Ongoing Contests"
+            3 -> "Showing Finished Contests"
+            else -> "Showing All Contests"
+        }
+
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
