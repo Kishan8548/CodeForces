@@ -170,7 +170,7 @@ class ProblemsFragment : Fragment() {
             .toList()
     }
     private fun sortProblems() {
-        filteredProblems = when (binding.spinnerSortTime.selectedItem.toString()) {
+        filteredProblems = when (binding.spinnerSortTime.selectedItem?.toString()) {
             "Newest First" -> filteredProblems.sortedByDescending { it.contestId }
             "Oldest First" -> filteredProblems.sortedBy { it.contestId }
             else -> filteredProblems

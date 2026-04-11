@@ -47,7 +47,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             requireActivity().finish()
         }
 
-        handle = arguments?.getString("HANDLE")
+        val prefs = requireActivity().getSharedPreferences("CodeforcesPrefs", AppCompatActivity.MODE_PRIVATE)
+        handle = prefs.getString("HANDLE", null)
         Log.d("ProfileFragment", "Handle: $handle")
         if (handle != null) {
             fetchProfileData(handle!!)

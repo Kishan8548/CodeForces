@@ -56,30 +56,13 @@ class ProblemsAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    /**
-     * Efficiently updates the list with smooth transitions
-     */
     fun updateList(newList: List<Problem>, newStatistics: List<ProblemStatistics>? = null) {
-        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-            override fun getOldListSize() = list.size
-            override fun getNewListSize() = newList.size
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return list[oldItemPosition].contestId == newList[newItemPosition].contestId &&
-                        list[oldItemPosition].index == newList[newItemPosition].index
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return list[oldItemPosition] == newList[newItemPosition]
-            }
-        })
-
         list = newList
         newStatistics?.let {
             statistics = it
             solvedMap = statistics.associateBy({ it.contestId to it.index }, { it.solvedCount })
         }
-
-        diffResult.dispatchUpdatesTo(this)
+        
+        notifyDataSetChanged()
     }
 }
