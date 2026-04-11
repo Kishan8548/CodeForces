@@ -55,6 +55,10 @@ class ProblemsFragment : Fragment() {
 
         fetchProblems()
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            fetchProblems()
+        }
+
         binding.btnApplyRatingFilter.setOnClickListener {
             applyFilters()
         }
@@ -89,6 +93,8 @@ class ProblemsFragment : Fragment() {
                 if (!isAdded || _binding == null) return
                 binding.progressBarContests.visibility = View.GONE // Hide loader
 
+                binding.swipeRefreshLayout.isRefreshing = false
+
                 if (response.isSuccessful && response.body()?.result != null) {
                     binding.recyclerProblems.visibility = View.VISIBLE // Show content
 
@@ -107,6 +113,7 @@ class ProblemsFragment : Fragment() {
             override fun onFailure(call: Call<ApiResponse<ProblemSetResponse>>, t: Throwable) {
                 if (!isAdded || _binding == null) return
                 binding.progressBarContests.visibility = View.GONE // Hide loader
+                binding.swipeRefreshLayout.isRefreshing = false
                 Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
