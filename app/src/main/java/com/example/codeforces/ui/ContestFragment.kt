@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class ContestFragment : Fragment() {
 
-    private var currentFilter = 0 // 0 = All, 1 = Upcoming, 2 = Ongoing, 3 = Finished
+    private var currentFilter = 0
     private var _binding: FragmentContestBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ContestAdapter
@@ -34,8 +34,8 @@ class ContestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        fetchContestList()
         setupDropdown()
+        fetchContestList()
     }
 
     private fun setupDropdown() {
@@ -67,7 +67,6 @@ class ContestFragment : Fragment() {
     }
 
     private fun fetchContestList() {
-        // Show shimmer loader
         binding.shimmerContests.startShimmer()
         binding.shimmerContests.visibility = View.VISIBLE
         binding.recyclerViewContests.visibility = View.GONE
@@ -79,7 +78,6 @@ class ContestFragment : Fragment() {
 
                 if (!isAdded || _binding == null) return@launch
 
-                // Hide shimmer
                 binding.shimmerContests.stopShimmer()
                 binding.shimmerContests.visibility = View.GONE
 
@@ -119,6 +117,7 @@ class ContestFragment : Fragment() {
     private fun showError(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         binding.recyclerViewContests.visibility = View.GONE
+        binding.emptyView.visibility = View.VISIBLE
     }
 
     private fun applyFilter(position: Int) {
