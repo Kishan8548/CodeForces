@@ -10,6 +10,7 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codeforces.ContestReminderReceiver
 import com.example.codeforces.databinding.ItemContestBinding
@@ -70,8 +71,8 @@ class ContestAdapter : RecyclerView.Adapter<ContestAdapter.ViewHolder>() {
                     "https://codeforces.com/contest/${contest.id}"
                 }
 
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                context.startActivity(intent)
+                val customTabsIntent = CustomTabsIntent.Builder().build()
+                customTabsIntent.launchUrl(context, Uri.parse(url))
             }
             btnSetReminder.setOnClickListener {
                 scheduleContestReminder(root.context, contest)

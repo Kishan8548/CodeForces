@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codeforces.R
@@ -48,8 +49,8 @@ class ProblemsAdapter(
         holder.itemView.setOnClickListener {
             val url =
                 "https://codeforces.com/problemset/problem/${item.contestId}/${item.index}"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            holder.itemView.context.startActivity(intent)
+            val customTabsIntent = CustomTabsIntent.Builder().build()
+            customTabsIntent.launchUrl(holder.itemView.context, Uri.parse(url))
         }
     }
 
