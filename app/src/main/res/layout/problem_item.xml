@@ -34,7 +34,8 @@
             android:id="@+id/textRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rating: 1200"
+            android:text=" Rating: 1200"
+            android:drawableStart="@drawable/ic_star"
             android:textSize="14sp"
             android:layout_marginBottom="2dp"/>
 
