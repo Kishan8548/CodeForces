@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codeforces.R
+import com.example.codeforces.databinding.ActivityMainBinding
+import com.example.codeforces.databinding.ProblemItemBinding
 import com.example.codeforces.models.Problem
 import com.example.codeforces.models.ProblemStatistics
 
@@ -20,31 +22,28 @@ class ProblemsAdapter(
     private var solvedMap: Map<Pair<Int?, String?>, Int> =
         statistics.associateBy({ it.contestId to it.index }, { it.solvedCount })
 
-    inner class ProblemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.textTitle)
-        val index: TextView = view.findViewById(R.id.textIndex)
-        val rating: TextView = view.findViewById(R.id.textRating)
-        val tags: TextView = view.findViewById(R.id.textTags)
-        val solved: TextView = view.findViewById(R.id.textSolved)
-    }
+    inner class ProblemViewHolder(val binding: ProblemItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProblemViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.problem_item, parent, false)
-        return ProblemViewHolder(view)
+        val binding = ProblemItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ProblemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ProblemViewHolder, position: Int) {
         val item = list[position]
 
-        holder.title.text = item.name
-        holder.index.text = "Index: ${item.index}"
-        holder.tags.text = "Tags: ${item.tags.joinToString(", ")}"
-        holder.rating.text =
+        holder.binding.textTitle.text = item.name
+        holder.binding.textIndex.text = "Index: ${item.index}"
+        holder.binding.textTags.text= "Tags: ${item.tags.joinToString(", ")}"
+        holder.binding.textRating.text =
             if ((item.rating ?: 0) > 0) "Rating: ${item.rating}" else "Unrated"
 
         val solvedCount = solvedMap[item.contestId to item.index] ?: 0
-        holder.solved.text = "Solved by: $solvedCount users"
+        holder.binding.textSolved.text = "Solved by: $solvedCount users"
 
         holder.itemView.setOnClickListener {
             val url =
