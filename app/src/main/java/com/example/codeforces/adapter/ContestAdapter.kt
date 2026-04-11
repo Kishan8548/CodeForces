@@ -10,8 +10,13 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.codeforces.ContestReminderReceiver
 import com.example.codeforces.databinding.ItemContestBinding
 import com.example.codeforces.models.Contest
@@ -75,15 +80,68 @@ class ContestAdapter : RecyclerView.Adapter<ContestAdapter.ViewHolder>() {
                 customTabsIntent.launchUrl(context, Uri.parse(url))
             }
             btnSetReminder.setOnClickListener {
-                scheduleContestReminder(root.context, contest)
+                showReminderDialog(root.context, contest)
             }
 
 
 
         }
     }
+
+    fun showReminderDialog(context: Context, contest: Contest) {
+
+        val layout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(50, 40, 50, 10)
+        }
+
+        val input = EditText(context).apply {
+            hint = "Enter reminder time"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+        }
+
+        val spinner = Spinner(context)
+        val units = arrayOf("Minutes", "Hours", "Days")
+
+        spinner.adapter = ArrayAdapter(
+            context,
+            android.R.layout.simple_spinner_dropdown_item,
+            units
+        )
+
+        layout.addView(input)
+        layout.addView(spinner)
+
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Set Custom Reminder")
+            .setView(layout)
+            .setPositiveButton("Set") { _, _ ->
+
+                val value = input.text.toString().toLongOrNull()
+
+                if (value == null || value <= 0) {
+                    android.widget.Toast.makeText(context, "Invalid input", android.widget.Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                val selectedUnit = spinner.selectedItem.toString()
+
+                val offset = when (selectedUnit) {
+                    "Minutes" -> value * 60 * 1000
+                    "Hours" -> value * 60 * 60 * 1000
+                    "Days" -> value * 24 * 60 * 60 * 1000
+                    else -> 0L
+                }
+
+                scheduleContestReminder(context, contest, offset)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+
     @SuppressLint("ServiceCast")
-    fun scheduleContestReminder(context: Context, contest: Contest) {
+    fun scheduleContestReminder(context: Context, contest: Contest, offset: Long) {
         val intent = Intent(context, ContestReminderReceiver::class.java).apply {
             putExtra("contest_name", contest.name)
             putExtra("contest_url", "https://codeforces.com/contest/${contest.id}")
@@ -98,7 +156,7 @@ class ContestAdapter : RecyclerView.Adapter<ContestAdapter.ViewHolder>() {
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val triggerAt = contest.startTimeSeconds?.times(1000)?.minus(10 * 60 * 1000)
+        val triggerAt = contest.startTimeSeconds?.times(1000)?.minus(offset)
         if (triggerAt != null) {
             if (triggerAt > System.currentTimeMillis()) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
