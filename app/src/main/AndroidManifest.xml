@@ -35,6 +35,17 @@
 
 
         <receiver android:name=".ContestReminderReceiver" />
+        <receiver
+            android:name=".widget.ProfileWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.codeforces.widget.ACTION_REFRESH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/profile_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.codeforces.databinding.ActivityMainBinding
 import android.Manifest
 import android.widget.Toast
+import com.example.codeforces.R
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 
@@ -27,6 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
+
+        // Deep-link from widget: select Profile tab
+        if (intent?.getStringExtra("NAVIGATE_TO") == "profile") {
+            binding.bottomNavigation.selectedItemId = R.id.profileFragment
+        }
 
         askNotificationPermission()
     }

@@ -19,6 +19,7 @@ import com.example.codeforces.databinding.ActivityEnterUsernameBinding
 import com.example.codeforces.MainViewModel
 import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.User
+import com.example.codeforces.widget.ProfileWidget
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
@@ -64,6 +65,8 @@ class EnterUsernameActivity : AppCompatActivity() {
         val savedHandle = prefs.getString("HANDLE", null)
 
         if (savedHandle != null) {
+            // Refresh widget in case handle changed externally
+            ProfileWidget.triggerUpdate(this)
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("HANDLE", savedHandle)
             startActivity(intent)
@@ -93,6 +96,8 @@ class EnterUsernameActivity : AppCompatActivity() {
             isValidUser(handle) { isValid ->
                 if (isValid) {
                     prefs.edit().putString("HANDLE", handle).apply()
+                    // Refresh all widget instances with the new handle
+                    ProfileWidget.triggerUpdate(this)
                     val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("HANDLE", handle)
                     startActivity(intent)

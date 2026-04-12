@@ -30,4 +30,14 @@
     <string name="ID">Kishan_455</string>
     <string name="Title">Pupil</string>
     <string name="Rating">3000</string>
+    <string name="widget_not_logged_in">Not logged in</string>
+    <string name="widget_loading">Loading…</string>
+    <string name="widget_error">Failed to load</string>
+    <string name="widget_unrated">Unrated</string>
+    <string name="widget_tap_to_login">Tap to sign in</string>
+    <string name="widget_rating_label">RATING</string>
+    <string name="widget_max_rating_label">MAX RATING</string>
+    <string name="widget_app_name">CF Profile</string>
+    <string name="widget_refresh_desc">Refresh widget</string>
+    <string name="widget_description">View your Codeforces profile at a glance</string>
 </resources>
