@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="legendary_grandmaster">#FF4444</color>
+
+    <color name="profile_gradient_start">#4338CA</color>
+    <color name="profile_gradient_center">#6D28D9</color>
+    <color name="profile_gradient_end">#7C3AED</color>
+
+    <color name="avatar_ring_color">#C4B5FD</color>
+
+    <color name="header_text_primary">#FFFFFF</color>
+    <color name="header_text_secondary">#C4B5FD</color>
+
+    <color name="stat_card_bg">#1E1B4B</color>
+    <color name="stat_card_border">#312E81</color>
+    <color name="stat_card_label">#A5B4FC</color>
+    <color name="stat_card_value">#E0E7FF</color>
+
+    <color name="stat_accent_rating">#FBBF24</color>
+    <color name="stat_accent_rank">#A78BFA</color>
+    <color name="stat_accent_contribution">#34D399</color>
+
+    <color name="info_row_bg">#1F2937</color>
+    <color name="info_label_color">#9CA3AF</color>
+    <color name="info_value_color">#E5E7EB</color>
+
+    <color name="divider_color">#374151</color>
+
+    <color name="handle_btn_stroke">#A78BFA</color>
+    <color name="handle_btn_text">#A78BFA</color>
+    <color name="handle_btn_ripple">#337C3AED</color>
+
+    <color name="profile_page_bg">#111827</color>
+
+    <color name="problems_bg">#0F172A</color>
+    <color name="filter_section_bg">#1E293B</color>
+    <color name="filter_section_border">#334155</color>
+    <color name="filter_label_color">#94A3B8</color>
+
+    <color name="apply_btn_start">#F97316</color>
+    <color name="apply_btn_end">#EF4444</color>
+    <color name="apply_btn_text">#FFFFFF</color>
+    <color name="apply_btn_ripple">#44FFFFFF</color>
+
+    <color name="sort_section_bg">#1E293B</color>
+    <color name="sort_section_border">#475569</color>
+    <color name="sort_label_color">#CBD5E1</color>
+</resources>
