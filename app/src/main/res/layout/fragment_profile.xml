@@ -69,9 +69,13 @@
 
                     <TextView
                         android:id="@+id/tvHandle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:maxLines="2"
+                        android:gravity="center"
+                        android:paddingHorizontal="12dp"
+                        android:ellipsize="end"
                         android:textStyle="bold"
                         android:textSize="24sp"
                         android:textColor="@color/header_text_primary"
@@ -80,10 +84,14 @@
 
                     <TextView
                         android:id="@+id/tvFullName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:maxLines="2"
+                        android:gravity="center"
+                        android:ellipsize="end"
                         android:textSize="15sp"
+                        android:paddingHorizontal="12dp"
                         android:textColor="@color/header_text_secondary"
                         android:layout_marginTop="2dp"
                         android:fontFamily="sans-serif" />
@@ -367,7 +375,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnChangeHandle"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
@@ -375,11 +383,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
                 android:text="Change Handle"
-                android:textColor="@color/handle_btn_text"
-                android:textStyle="bold"
                 android:textSize="15sp"
-                android:background="@drawable/bg_change_handle_button"
-                android:fontFamily="sans-serif-medium"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:textAllCaps="false" />
 
         </LinearLayout>

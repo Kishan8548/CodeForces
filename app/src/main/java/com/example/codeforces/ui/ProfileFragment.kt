@@ -114,7 +114,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         with(binding) {
             tvHandle.text = user.handle
             tvRank.text = user.rank ?: "Unrated"
-            tvFullName.text = user.firstName +" "+ user.lastName
+            val firstname=user.firstName ?: ""
+            val lastname=user.lastName ?: ""
+
+            tvFullName.text = "$firstname $lastname".trim()
             tvContestRating.text = "Contest rating: ${user.rating ?: 0} (max. ${user.maxRank ?: "-"}, ${user.maxRating ?: 0})"
             tvContribution.text = "Contribution: ${user.contribution ?: 0}"
             tvFriends.text = "Friend of: ${user.friendOfCount ?: 0} users"
