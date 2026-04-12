@@ -103,10 +103,10 @@ interface CodeforcesApi {
     ): Call<ApiResponse<List<RatingChange>>>
 
     @GET("user.status")
-    fun getUserSubmissions(
+    suspend fun getUserSubmissions(
         @Query("handle") handle: String,
         @Query("from") from: Int = 1,
         @Query("count") count: Int = 50,
         @Query("includeSources") includeSources: Boolean = false
-    ): Call<ApiResponse<List<Submission>>>
+    ): retrofit2.Response<ApiResponse<List<Submission>>>
 }

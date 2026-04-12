@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
 import com.example.codeforces.R
 import com.example.codeforces.api.RetrofitInstance
@@ -16,6 +17,7 @@ import com.example.codeforces.utils.RankUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class ProfileWidget : AppWidgetProvider() {
 
@@ -134,6 +136,26 @@ class ProfileWidget : AppWidgetProvider() {
                 val response = RetrofitInstance.api.getUserInfo(handle)
                 val user = response.body()?.result?.firstOrNull()
 
+                val submissionResponse = RetrofitInstance.api.getUserSubmissions(handle)
+                val submissions = submissionResponse.body()?.result?: emptyList()
+
+                var todayCount = 0
+
+                for (submission in submissions){
+                    if (isToday(submission.creationTimeSeconds)){
+                        todayCount++;
+                    }
+                }
+
+                if (todayCount>0){
+                    views.setTextViewText(R.id.widget_todays_submission,todayCount.toString())
+                    views.setViewVisibility(R.id.checkSubmission, View.VISIBLE)
+                }
+                else{
+                    views.setTextViewText(R.id.widget_todays_submission,"0")
+                    views.setViewVisibility(R.id.checkSubmission, View.GONE)
+                }
+
                 if (user != null) {
                     views.setTextViewText(R.id.widget_handle, user.handle)
 
@@ -172,4 +194,15 @@ class ProfileWidget : AppWidgetProvider() {
             }
         }
     }
+
+    private fun isToday(creationTimeSeconds : Long) : Boolean{
+        val submissionCal = Calendar.getInstance()
+        submissionCal.timeInMillis = creationTimeSeconds * 1000
+
+        val todayCal = Calendar.getInstance()
+
+        return submissionCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR) && submissionCal.get(Calendar.DAY_OF_YEAR) == todayCal.get(Calendar.DAY_OF_YEAR)
+
+    }
+
 }
