@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface_black"
+    android:orientation="vertical"
+    android:padding="28dp">
+
+    <!-- ── BACK BUTTON ──────────────────────────────────── -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_redirect"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:rotation="180"
+        android:layout_marginBottom="24dp" />
+
+    <!-- ── AVATAR + GREETING ────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="40dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivGoogleAvatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_profile"
+            android:layout_marginEnd="16dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hey there!"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/on_surface" />
+
+            <TextView
+                android:id="@+id/tvGoogleEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="you@gmail.com"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ── HEADLINE ─────────────────────────────────────── -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LINK YOUR\nCODEFORCES\nHANDLE"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/on_surface"
+        android:lineSpacingMultiplier="0.95"
+        android:letterSpacing="-0.03"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="We will fetch your stats, rank, and contest history automatically."
+        android:textSize="13sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/on_surface_variant"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginBottom="40dp" />
+
+    <!-- ── INPUT LABEL ──────────────────────────────────── -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CF HANDLE"
+        android:textSize="11sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/on_surface_variant"
+        android:letterSpacing="0.2"
+        android:layout_marginBottom="8dp" />
+
+    <!-- ── INPUT ─────────────────────────────────────────── -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CFInputStyle"
+        android:layout_marginBottom="8dp"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etHandle"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:textColor="@color/on_surface"
+            android:textColorHint="@color/on_surface_variant"
+            android:hint="e.g. tourist"
+            android:fontFamily="monospace"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Case-sensitive. Exactly as shown on codeforces.com"
+        android:textSize="11sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/on_surface_variant"
+        android:layout_marginBottom="12dp" />
+
+    <!-- ── PREVIEW CARD (shown after handle verified) ────── -->
+    <LinearLayout
+        android:id="@+id/previewCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="@drawable/bg_dark_card"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvPreviewRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PUPIL"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_rank_badge_dark"
+            android:textColor="@color/rank_newbie_on_primary"
+            android:layout_marginEnd="12dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPreviewHandle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tourist"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textColor="@color/rank_newbie_primary" />
+
+            <TextView
+                android:id="@+id/tvPreviewRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating: 3979"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/tvPreviewCheck"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/baseline_check_circle_24"
+            app:tint="@color/rank_newbie_primary" />
+
+    </LinearLayout>
+
+    <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+    <!-- ── CONFIRM BUTTON ────────────────────────────────── -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginBottom="12dp">
+
+        <View
+            android:id="@+id/btnConfirmShadow"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/rank_newbie_primary_dim" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmHandle"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:text="VERIFY HANDLE"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.08"
+            android:textColor="@color/rank_newbie_on_primary"
+            android:backgroundTint="@color/rank_newbie_primary"
+            app:cornerRadius="0dp"
+            app:elevation="0dp" />
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBinding"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateTint="@color/rank_newbie_primary"
+        android:visibility="gone" />
+
+</LinearLayout>
