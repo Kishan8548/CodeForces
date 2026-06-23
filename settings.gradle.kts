@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CodeForces"
+rootProject.name = "CF Companion"
 include(":app")
  
