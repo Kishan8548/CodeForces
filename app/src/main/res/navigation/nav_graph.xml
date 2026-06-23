@@ -18,4 +18,9 @@
         android:name="com.example.codeforces.ui.ProblemsFragment"
         android:label="Problems" />
 
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.codeforces.ui.FriendsFragment"
+        android:label="Friends" />
+
 </navigation>

@@ -2,59 +2,141 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="on_surface_black">#FF000000</color>   <!-- text on rank-colored badge backgrounds -->
 
+    <!-- ═══════════════════════════════════════════════════
+         BRUTALIST DARK BASE PALETTE (Stitch Design System)
+         ═══════════════════════════════════════════════════ -->
+    <color name="surface_black">#0A0A0A</color>
+    <color name="surface_dim">#101010</color>
+    <color name="surface_container">#181818</color>
+    <color name="surface_container_low">#141414</color>
+    <color name="surface_container_high">#222222</color>
+    <color name="surface_container_highest">#2D2D2D</color>
+    <color name="surface_variant">#2D2D2D</color>
+    <color name="surface_bright">#313131</color>
+
+    <color name="stroke_gray">#262626</color>
+    <color name="stroke_gray_medium">#3A3A3A</color>
+
+    <color name="on_surface">#E0E0E0</color>
+    <color name="on_surface_variant">#B0B0B0</color>
+    <color name="on_background">#E0E0E0</color>
+
+    <color name="danger_red">#FF3B3B</color>
+    <color name="secondary_label">#C6C6C7</color>
+
+    <!-- ═══════════════════════════════════════════════
+         RANK COLORS (Legacy — still used in widget/adapter)
+         ═══════════════════════════════════════════════ -->
     <color name="newbie">#808080</color>
-    <color name="pupil">#008000</color>
-    <color name="specialist">#03A89E</color>
-    <color name="expert">#0000FF</color>
-    <color name="candidate_master">#AA00AA</color>
-    <color name="master">#FF8C00</color>
+    <color name="pupil">#6BFF83</color>
+    <color name="specialist">#00E5FF</color>
+    <color name="expert">#5599FF</color>
+    <color name="candidate_master">#CC44CC</color>
+    <color name="master">#FFB84D</color>
     <color name="international_master">#FFA500</color>
-    <color name="grandmaster">#FF0000</color>
-    <color name="international_grandmaster">#FF0000</color>
-    <color name="legendary_grandmaster">#000000</color>
+    <color name="grandmaster">#FF4444</color>
+    <color name="international_grandmaster">#FF3333</color>
+    <color name="legendary_grandmaster">#FF0000</color>
 
-    <color name="profile_gradient_start">#6C63FF</color>
-    <color name="profile_gradient_center">#8B5CF6</color>
-    <color name="profile_gradient_end">#A78BFA</color>
+    <!-- ═══════════════════════════════════════════════════════
+         PER-RANK THEME SETS  (primary + on_primary + surface_accent)
+         ═══════════════════════════════════════════════════════ -->
 
-    <color name="avatar_ring_color">#FFFFFF</color>
+    <!-- Newbie (Gray) -->
+    <color name="rank_newbie_primary">#A0A0A0</color>
+    <color name="rank_newbie_primary_dim">#707070</color>
+    <color name="rank_newbie_on_primary">#0D0D0D</color>
+    <color name="rank_newbie_surface">#181818</color>
 
-    <color name="header_text_primary">#FFFFFF</color>
-    <color name="header_text_secondary">#E0DFFB</color>
+    <!-- Pupil (Green) -->
+    <color name="rank_pupil_primary">#6BFF83</color>
+    <color name="rank_pupil_primary_dim">#00E55B</color>
+    <color name="rank_pupil_on_primary">#002107</color>
+    <color name="rank_pupil_surface">#182218</color>
 
-    <color name="stat_card_bg">#F5F3FF</color>
-    <color name="stat_card_border">#DDD6FE</color>
-    <color name="stat_card_label">#6B7280</color>
-    <color name="stat_card_value">#1F2937</color>
+    <!-- Specialist (Cyan) -->
+    <color name="rank_specialist_primary">#00E5FF</color>
+    <color name="rank_specialist_primary_dim">#00B2C8</color>
+    <color name="rank_specialist_on_primary">#001A1F</color>
+    <color name="rank_specialist_surface">#0A1F22</color>
 
-    <color name="stat_accent_rating">#F59E0B</color>
-    <color name="stat_accent_rank">#8B5CF6</color>
-    <color name="stat_accent_contribution">#10B981</color>
+    <!-- Expert (Blue) -->
+    <color name="rank_expert_primary">#5599FF</color>
+    <color name="rank_expert_primary_dim">#2266DD</color>
+    <color name="rank_expert_on_primary">#00174D</color>
+    <color name="rank_expert_surface">#0A1020</color>
 
-    <color name="info_row_bg">#F9FAFB</color>
-    <color name="info_label_color">#6B7280</color>
-    <color name="info_value_color">#374151</color>
+    <!-- Candidate Master (Violet) -->
+    <color name="rank_cm_primary">#DD55DD</color>
+    <color name="rank_cm_primary_dim">#AA22AA</color>
+    <color name="rank_cm_on_primary">#1A001A</color>
+    <color name="rank_cm_surface">#140014</color>
 
-    <color name="divider_color">#E5E7EB</color>
+    <!-- Master (Orange) -->
+    <color name="rank_master_primary">#FFB84D</color>
+    <color name="rank_master_primary_dim">#E08800</color>
+    <color name="rank_master_on_primary">#1F0E00</color>
+    <color name="rank_master_surface">#1A1200</color>
 
-    <color name="handle_btn_stroke">#8B5CF6</color>
-    <color name="handle_btn_text">#8B5CF6</color>
-    <color name="handle_btn_ripple">#336C63FF</color>
+    <!-- International Master (Gold) -->
+    <color name="rank_im_primary">#FFD700</color>
+    <color name="rank_im_primary_dim">#C8A800</color>
+    <color name="rank_im_on_primary">#1A1400</color>
+    <color name="rank_im_surface">#181200</color>
 
-    <color name="profile_page_bg">#F3F4F6</color>
+    <!-- Grandmaster (Red) -->
+    <color name="rank_gm_primary">#FF4444</color>
+    <color name="rank_gm_primary_dim">#CC1111</color>
+    <color name="rank_gm_on_primary">#1F0000</color>
+    <color name="rank_gm_surface">#180000</color>
 
-    <color name="problems_bg">#F8FAFC</color>
-    <color name="filter_section_bg">#FFFFFF</color>
-    <color name="filter_section_border">#E2E8F0</color>
-    <color name="filter_label_color">#475569</color>
+    <!-- International Grandmaster (Deep Red) -->
+    <color name="rank_igm_primary">#FF2222</color>
+    <color name="rank_igm_primary_dim">#CC0000</color>
+    <color name="rank_igm_on_primary">#1A0000</color>
+    <color name="rank_igm_surface">#150000</color>
 
-    <color name="apply_btn_start">#F97316</color>
-    <color name="apply_btn_end">#EF4444</color>
-    <color name="apply_btn_text">#FFFFFF</color>
-    <color name="apply_btn_ripple">#44FFFFFF</color>
+    <!-- Legendary Grandmaster (Crimson) -->
+    <color name="rank_lgm_primary">#FF0000</color>
+    <color name="rank_lgm_primary_dim">#AA0000</color>
+    <color name="rank_lgm_on_primary">#100000</color>
+    <color name="rank_lgm_surface">#120000</color>
 
-    <color name="sort_section_bg">#F1F5F9</color>
-    <color name="sort_section_border">#CBD5E1</color>
-    <color name="sort_label_color">#334155</color>
+    <!-- ═══════════════════════════════════════════════
+         LEGACY / KEPT FOR COMPATIBILITY
+         ═══════════════════════════════════════════════ -->
+    <color name="profile_gradient_start">#6BFF83</color>
+    <color name="profile_gradient_center">#00E55B</color>
+    <color name="profile_gradient_end">#002107</color>
+    <color name="avatar_ring_color">#6BFF83</color>
+    <color name="header_text_primary">#DAE6D5</color>
+    <color name="header_text_secondary">#B9CCB5</color>
+    <color name="stat_card_bg">#182218</color>
+    <color name="stat_card_border">#262626</color>
+    <color name="stat_card_label">#B9CCB5</color>
+    <color name="stat_card_value">#DAE6D5</color>
+    <color name="stat_accent_rating">#6BFF83</color>
+    <color name="stat_accent_rank">#00E55B</color>
+    <color name="stat_accent_contribution">#6BFF83</color>
+    <color name="info_row_bg">#141E14</color>
+    <color name="info_label_color">#B9CCB5</color>
+    <color name="info_value_color">#DAE6D5</color>
+    <color name="divider_color">#262626</color>
+    <color name="handle_btn_stroke">#6BFF83</color>
+    <color name="handle_btn_text">#6BFF83</color>
+    <color name="handle_btn_ripple">#336BFF83</color>
+    <color name="profile_page_bg">#0A0A0A</color>
+    <color name="problems_bg">#0A0A0A</color>
+    <color name="filter_section_bg">#182218</color>
+    <color name="filter_section_border">#262626</color>
+    <color name="filter_label_color">#B9CCB5</color>
+    <color name="apply_btn_start">#6BFF83</color>
+    <color name="apply_btn_end">#00E55B</color>
+    <color name="apply_btn_text">#002107</color>
+    <color name="apply_btn_ripple">#446BFF83</color>
+    <color name="sort_section_bg">#141E14</color>
+    <color name="sort_section_border">#262626</color>
+    <color name="sort_label_color">#B9CCB5</color>
 </resources>

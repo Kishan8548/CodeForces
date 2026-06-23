@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bottom navigation background — pure black with top border -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top border line (rank-accented top indicator applied via code) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/stroke_gray" />
+        </shape>
+    </item>
+    <!-- Main background offset by 2dp to show top border -->
+    <item android:top="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/surface_black" />
+        </shape>
+    </item>
+</layer-list>

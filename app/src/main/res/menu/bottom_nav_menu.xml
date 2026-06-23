@@ -6,10 +6,14 @@
         android:icon="@drawable/ic_user"/>
     <item
         android:id="@+id/contestFragment"
-        android:title="Contest"
+        android:title="Contests"
         android:icon="@drawable/ic_flag"/>
     <item
         android:id="@+id/problemsFragment"
         android:title="Problems"
         android:icon="@drawable/ic_code"/>
+    <item
+        android:id="@+id/friendsFragment"
+        android:title="Friends"
+        android:icon="@drawable/friend_icon"/>
 </menu>
