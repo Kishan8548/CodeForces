@@ -2,6 +2,7 @@ package com.example.codeforces.ui
 import com.google.android.material.chip.Chip
 import androidx.core.view.children
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,29 +16,34 @@ import com.example.codeforces.R
 import com.example.codeforces.adapter.ProblemsAdapter
 import com.example.codeforces.api.RetrofitInstance
 import com.example.codeforces.databinding.FragmentProblemsBinding
-import com.example.codeforces.models.ApiResponse
 import com.example.codeforces.models.Problem
-import com.example.codeforces.models.ProblemSetResponse
 import com.example.codeforces.models.ProblemStatistics
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.codeforces.utils.ThemeManager
+import com.example.codeforces.utils.DataCache
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 class ProblemsFragment : Fragment() {
     private fun setupChips() {
         val tags = resources.getStringArray(R.array.problem_tags)
+        val theme = ThemeManager.current
 
         for (tag in tags) {
             val chip = Chip(requireContext()).apply {
                 text = tag
                 isCheckable = true
+                setTextColor(ColorStateList(
+                    arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+                    intArrayOf(theme.onPrimary, theme.onSurfaceVariant)
+                ))
+                chipBackgroundColor = ColorStateList(
+                    arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()),
+                    intArrayOf(theme.primary, theme.surface)
+                )
+                chipStrokeColor = ColorStateList.valueOf(theme.strokeGray)
+                chipStrokeWidth = 1f
 
-
-                setOnCheckedChangeListener { _, _ ->
-                    applyFilters()
-                }
+                setOnCheckedChangeListener { _, _ -> applyFilters() }
             }
             binding.chipGroupTags.addView(chip)
         }
@@ -63,8 +69,10 @@ class ProblemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Apply rank theme
+        applyRankTheme()
 
-        adapter = ProblemsAdapter(emptyList(), emptyList()) // initially empty
+        adapter = ProblemsAdapter(emptyList(), emptyList())
         binding.recyclerProblems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerProblems.adapter = adapter
 
@@ -73,39 +81,72 @@ class ProblemsFragment : Fragment() {
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
             sortOptions
-
-
         )
 
         setupChips()
-        fetchProblems()
+        
+        binding.swipeRefreshLayout.setOnRefreshListener { loadData(force = true) }
+        loadData(force = false)
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            fetchProblems()
-        }
-
-        binding.btnApplyRatingFilter.setOnClickListener {
-            applyFilters()
-        }
+        binding.btnApplyRatingFilter.setOnClickListener { applyFilters() }
 
         binding.spinnerSortTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 sortProblems()
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+        // Toggle Filter Minimize/Expand
+        binding.btnMinimizeFilter.setOnClickListener {
+            binding.layoutFilterContent.visibility = View.GONE
+            binding.btnExpandFilter.visibility = View.VISIBLE
+            binding.btnMinimizeFilter.visibility = View.GONE
+        }
+
+        binding.btnExpandFilter.setOnClickListener {
+            binding.layoutFilterContent.visibility = View.VISIBLE
+            binding.btnExpandFilter.visibility = View.GONE
+            binding.btnMinimizeFilter.visibility = View.VISIBLE
+        }
     }
 
+    private fun applyRankTheme() {
+        val theme = ThemeManager.current
+        // Apply button + hard shadow
+        binding.btnApplyRatingFilter.backgroundTintList = ColorStateList.valueOf(theme.primary)
+        binding.btnApplyRatingFilter.setTextColor(theme.onPrimary)
+        binding.btnApplyShadow.setBackgroundColor(theme.primaryDim)
+
+        // Dynamic Text Colors
+        binding.tvFilterByRating.setTextColor(theme.primary)
+        binding.btnExpandFilter.setTextColor(theme.primary)
+        binding.tvViewAllTags.setTextColor(theme.primary)
+        binding.btnMinimizeFilter.setTextColor(theme.primary)
+        // Progress bar
+        binding.progressBarContests.indeterminateTintList = ColorStateList.valueOf(theme.primary)
+        // Swipe refresh
+        binding.swipeRefreshLayout.setColorSchemeColors(theme.primary)
+    }
+
+    // ─── API Fetch ───────────────────────────────────────────────────────────
+
+    private fun loadData(force: Boolean) {
+        if (!force && DataCache.cachedProblems != null) {
+            allProblems = DataCache.cachedProblems!!
+            allStatistics = DataCache.cachedStatistics!!
+            applyFilters()
+            binding.swipeRefreshLayout.isRefreshing = false
+        } else {
+            fetchProblems()
+        }
+    }
 
     private fun fetchProblems() {
-        // Show loader immediately
-        binding.progressBarContests.visibility = View.VISIBLE
-        binding.recyclerProblems.visibility = View.GONE
+        if (!binding.swipeRefreshLayout.isRefreshing) {
+            binding.progressBarContests.visibility = View.VISIBLE
+            binding.recyclerProblems.visibility = View.GONE
+        }
 
         lifecycleScope.launch {
 
@@ -124,12 +165,11 @@ class ProblemsFragment : Fragment() {
 
                     val result = response.body()!!.result
                     allProblems = result.problems
+                    DataCache.cachedProblems = allProblems
                     allStatistics = result.problemStatistics
-                    filteredProblems = allProblems
-
-                    adapter = ProblemsAdapter(filteredProblems, allStatistics)
-                    binding.recyclerProblems.adapter = adapter
-
+                    DataCache.cachedStatistics = allStatistics
+                    
+                    applyFilters()
                 } else {
                     Toast.makeText(requireContext(), "Failed to load problems", Toast.LENGTH_SHORT).show()
                 }
@@ -140,6 +180,9 @@ class ProblemsFragment : Fragment() {
 
                 binding.progressBarContests.visibility = View.GONE
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                _binding?.swipeRefreshLayout?.isRefreshing = false
+                _binding?.progressBarContests?.visibility = View.GONE
             }
         }
     }
@@ -177,6 +220,7 @@ class ProblemsFragment : Fragment() {
         }
 
         adapter.updateList(filteredProblems,allStatistics)
+        binding.recyclerProblems.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

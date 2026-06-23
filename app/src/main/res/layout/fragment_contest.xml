@@ -1,124 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:paddingTop="16dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/surface_black"
+    android:fitsSystemWindows="true">
 
-    <!-- MAIN CONTENT -->
+    <!-- ── HEADER ──────────────────────────────────── -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="No Contest"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="12dp">
 
-        <!-- HEADER -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="12dp">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Contests"
-                android:textSize="20sp"
+                android:text="CONTESTS"
+                android:textSize="26sp"
                 android:textStyle="bold"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/on_surface"
+                android:letterSpacing="-0.02" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                <AutoCompleteTextView
-                    android:id="@+id/dropdownSort"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Filter"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:inputType="none"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:text="High-stakes competitive programming"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginTop="2dp" />
 
         </LinearLayout>
 
-        <!-- CONTENT AREA -->
+        <!-- FILTER SPINNER ─────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FILTER"
+                android:textSize="9sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.2"
+                android:layout_marginBottom="4dp" />
+
+            <Spinner
+                android:id="@+id/dropdownSort"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_outlined_button"
+                android:paddingStart="10dp"
+                android:paddingEnd="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ── SEPARATOR ───────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/stroke_gray" />
+
+    <!-- ── LIST CONTAINER ────────────────────────────── -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshContest"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
-            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewContests"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="80dp"/>
+                android:paddingHorizontal="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="80dp" />
 
-            <!-- Shimmer -->
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerContests"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerContests"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:shimmer_duration="1200"
+            app:shimmer_base_alpha="0.3"
+            app:shimmer_highlight_alpha="0.7">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:shimmer_duration="1200">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <include layout="@layout/item_contest_skeleton" />
+                <include layout="@layout/item_contest_skeleton" />
+                <include layout="@layout/item_contest_skeleton" />
 
-                    <include layout="@layout/item_contest_skeleton"/>
-                    <include layout="@layout/item_contest_skeleton"/>
-                    <include layout="@layout/item_contest_skeleton"/>
+            </LinearLayout>
 
-                </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
+        <!-- Empty state -->
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center"
+            android:padding="32dp">
 
-        </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⬚"
+                android:textSize="64sp"
+                android:textColor="@color/stroke_gray_medium"
+                android:layout_marginBottom="16dp" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO CONTESTS FOUND"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.1" />
 
-    <!-- EMPTY VIEW -->
-    <LinearLayout
-        android:id="@+id/emptyView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:gravity="center"
-        android:padding="24dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pull to refresh or change filter"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginTop="8dp" />
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:contentDescription="No Contest"
-            android:src="@drawable/animated_logo"/>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No Contest Found"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp"/>
+    </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

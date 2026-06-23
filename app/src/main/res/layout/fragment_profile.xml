@@ -3,397 +3,561 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/profile_page_bg">
+    android:fitsSystemWindows="true"
+    android:background="@color/surface_black">
 
+    <!-- ─────────────── MAIN SCROLL CONTENT ─────────────────── -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp">
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ══ PROFILE HEADER SECTION ══════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingTop="40dp"
+                android:paddingBottom="32dp"
+                android:paddingHorizontal="20dp">
+
+                <!-- Avatar with glow ring -->
+                <FrameLayout
+                    android:layout_width="136dp"
+                    android:layout_height="136dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <!-- Rank color ring (updated at runtime) -->
+                    <View
+                        android:id="@+id/avatarRing"
+                        android:layout_width="136dp"
+                        android:layout_height="136dp"
+                        android:background="@drawable/bg_avatar_ring_dark" />
+
+                    <!-- Avatar image — inset 4dp inside the ring -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="124dp"
+                        android:layout_height="124dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_profile"
+                        android:contentDescription="@string/cd_user_avatar"
+                        app:civ_border_width="0dp" />
+
+                </FrameLayout>
+
+                <!-- Rank badge pill sits right below avatar -->
+                <TextView
+                    android:id="@+id/tvRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PUPIL"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    android:letterSpacing="0.15"
+                    android:textAllCaps="true"
+                    android:background="@drawable/bg_rank_badge_dark"
+                    android:textColor="@color/rank_newbie_on_primary"
+                    android:layout_marginTop="12dp" />
+
+                <!-- Handle — large display text in rank color -->
+                <TextView
+                    android:id="@+id/tvHandle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="handle"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/rank_newbie_primary"
+                    android:letterSpacing="-0.02"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="16dp"
+                    android:paddingHorizontal="8dp" />
+
+                <!-- Full name sub-label -->
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/on_surface_variant"
+                    android:layout_marginTop="4dp" />
+
+                <!-- Online dot indicator -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp">
+
+                    <View
+                        android:id="@+id/onlineDot"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_avatar_ring_dark"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ONLINE NOW"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant"
+                        android:letterSpacing="0.2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ══ HORIZONTAL DIVIDER ═══════════════════════════ -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/stroke_gray"
+                android:layout_marginBottom="24dp" />
+
+            <!-- ══ STATS GRID (3 columns) ════════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="24dp"
+                android:baselineAligned="false">
+
+                <!-- Rating Card — Featured (rank accent border) -->
+                <LinearLayout
+                    android:id="@+id/cardRating"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_dark_card">
+
+                    <!-- Star icon in rank color -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="★"
+                        android:textSize="20sp"
+                        android:textColor="@color/rank_newbie_primary"
+                        android:id="@+id/ivRatingStar" />
+
+                    <TextView
+                        android:id="@+id/tvContestRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/rank_newbie_primary"
+                        android:gravity="center"
+                        android:layout_marginTop="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RATING"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant"
+                        android:letterSpacing="0.15"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvMaxRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAX —"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+                <!-- Contribution Card -->
+                <LinearLayout
+                    android:id="@+id/cardContribution"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_dark_card">
+
+                    <TextView
+                        android:id="@+id/tvContribution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface"
+                        android:gravity="center"
+                        android:layout_marginTop="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CONTRIB"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant"
+                        android:letterSpacing="0.15"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <!-- Friends Card -->
+                <LinearLayout
+                    android:id="@+id/cardFriends"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_dark_card">
+
+                    <TextView
+                        android:id="@+id/tvFriends"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface"
+                        android:gravity="center"
+                        android:layout_marginTop="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FRIENDS"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant"
+                        android:letterSpacing="0.15"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ══ PROFILE DETAILS SECTION ══════════════════════ -->
+            <LinearLayout
+                android:id="@+id/cardProfileDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_dark_card">
+
+                <!-- Section header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="@color/surface_container_high">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="PROFILE DETAILS"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.1"
+                        android:textColor="@color/on_surface" />
+
+
+                </LinearLayout>
+
+                <!-- City row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                        android:text="CITY" android:textSize="11sp" android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant" android:letterSpacing="0.1" />
+                    <TextView android:id="@+id/tvCity" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="N/A" android:textSize="12sp"
+                        android:fontFamily="monospace" android:textStyle="bold"
+                        android:textColor="@color/on_surface" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/stroke_gray" android:layout_marginHorizontal="16dp" />
+
+                <!-- Country row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                        android:text="COUNTRY" android:textSize="11sp" android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant" android:letterSpacing="0.1" />
+                    <TextView android:id="@+id/tvCountry" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="N/A" android:textSize="12sp"
+                        android:fontFamily="monospace" android:textStyle="bold"
+                        android:textColor="@color/on_surface" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/stroke_gray" android:layout_marginHorizontal="16dp" />
+
+                <!-- Organization row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                        android:text="ORGANIZATION" android:textSize="11sp" android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant" android:letterSpacing="0.1" />
+                    <TextView android:id="@+id/tvOrganization" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="N/A" android:textSize="12sp"
+                        android:fontFamily="monospace" android:textStyle="bold"
+                        android:textColor="@color/on_surface" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/stroke_gray" android:layout_marginHorizontal="16dp" />
+
+                <!-- Blogs row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                        android:text="BLOG ENTRIES" android:textSize="11sp" android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant" android:letterSpacing="0.1" />
+                    <TextView android:id="@+id/tvBlogEntries" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0" android:textSize="12sp"
+                        android:fontFamily="monospace" android:textStyle="bold"
+                        android:textColor="@color/on_surface" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ══ RECENT SUBMISSIONS SECTION ═════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_dark_card"
+                android:padding="16dp">
+
+                <!-- Recent Submissions Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <View
+                        android:id="@+id/indicatorRecentSubmissions"
+                        android:layout_width="16dp"
+                        android:layout_height="4dp"
+                        android:background="@color/rank_newbie_primary"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="RECENT SUBMISSIONS"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.05"
+                        android:textColor="@color/on_surface" />
+
+                    <TextView
+                        android:id="@+id/btnViewAllSubmissions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VIEW ALL →"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/rank_newbie_primary"
+                        android:padding="8dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <!-- Submissions Table Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:paddingHorizontal="8dp"
+                    android:background="@color/surface_container_low">
+                    
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="PROBLEM"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="VERDICT"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant" />
+                        
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.8"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="TIME"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/on_surface_variant"
+                        android:gravity="end" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/stroke_gray" />
+
+                <ProgressBar
+                    android:id="@+id/progressSubmissions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone" />
+
+                <!-- Submissions List -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerSubmissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="8dp" />
+                    
+                <TextView
+                    android:id="@+id/tvEmptySubmissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No recent submissions"
+                    android:gravity="center"
+                    android:textColor="@color/on_surface_variant"
+                    android:layout_marginTop="32dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- ══ CHANGE HANDLE BUTTON ═════════════════════════ -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp">
+
+                <!-- Neobrutalist offset shadow -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/btnShadow"
+                    android:background="@color/rank_newbie_primary_dim" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangeHandle"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:text="CHANGE HANDLE"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    android:letterSpacing="0.08"
+                    android:textColor="@color/rank_newbie_on_primary"
+                    android:backgroundTint="@color/rank_newbie_primary"
+                    app:cornerRadius="0dp"
+                    app:elevation="0dp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- ─────────────── PROGRESS BAR (center overlay) ─────── -->
+    <ProgressBar
+        android:id="@+id/progressBarProfile"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateTint="@color/rank_newbie_primary" />
+
+    <!-- Problems recycler (kept for compatibility) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProblems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:background="@drawable/bg_profile_header_gradient" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="32dp"
-                    android:paddingBottom="40dp">
-
-                    <FrameLayout
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
-                        android:layout_gravity="center_horizontal">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/bg_avatar_ring" />
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_gravity="center"
-                            app:cardCornerRadius="60dp"
-                            app:cardElevation="6dp">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/profileImage"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:contentDescription="@string/cd_user_avatar"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_profile" />
-                        </androidx.cardview.widget.CardView>
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/tvHandle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:maxLines="2"
-                        android:gravity="center"
-                        android:paddingHorizontal="12dp"
-                        android:ellipsize="end"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:textColor="@color/header_text_primary"
-                        android:layout_marginTop="14dp"
-                        android:fontFamily="sans-serif-medium" />
-
-                    <TextView
-                        android:id="@+id/tvFullName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:maxLines="2"
-                        android:gravity="center"
-                        android:ellipsize="end"
-                        android:textSize="15sp"
-                        android:paddingHorizontal="12dp"
-                        android:textColor="@color/header_text_secondary"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="sans-serif" />
-
-                    <TextView
-                        android:id="@+id/tvRank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@android:color/holo_blue_dark"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="6dp"
-                        android:paddingHorizontal="16dp"
-                        android:paddingVertical="4dp"
-                        android:background="@drawable/bg_rank_badge"
-                        android:fontFamily="sans-serif-medium" />
-
-                </LinearLayout>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="-24dp"
-                android:paddingHorizontal="16dp"
-                android:gravity="center"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/bg_stat_card"
-                    android:padding="14dp"
-                    android:layout_marginEnd="6dp"
-                    android:elevation="3dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="⭐"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/tvContestRating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/stat_card_value"
-                        android:gravity="center"
-                        android:layout_marginTop="6dp"
-                        android:fontFamily="sans-serif-medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rating"
-                        android:textSize="11sp"
-                        android:textColor="@color/stat_card_label"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="sans-serif" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/bg_stat_card"
-                    android:padding="14dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:elevation="3dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🤝"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/tvContribution"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/stat_card_value"
-                        android:gravity="center"
-                        android:layout_marginTop="6dp"
-                        android:fontFamily="sans-serif-medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Contribution"
-                        android:textSize="11sp"
-                        android:textColor="@color/stat_card_label"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="sans-serif" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/bg_stat_card"
-                    android:padding="14dp"
-                    android:layout_marginStart="6dp"
-                    android:elevation="3dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="👥"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/tvFriends"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/stat_card_value"
-                        android:gravity="center"
-                        android:layout_marginTop="6dp"
-                        android:fontFamily="sans-serif-medium" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Friends"
-                        android:textSize="11sp"
-                        android:textColor="@color/stat_card_label"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="sans-serif" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/LinearContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Details"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/stat_card_value"
-                        android:fontFamily="sans-serif-medium"
-                        android:layout_marginBottom="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/bg_info_row"
-                        android:padding="12dp"
-                        android:layout_marginBottom="6dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📍"
-                            android:textSize="16sp"
-                            android:layout_marginEnd="12dp" />
-
-                        <TextView
-                            android:id="@+id/tvCity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/info_value_color"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/bg_info_row"
-                        android:padding="12dp"
-                        android:layout_marginBottom="6dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🌍"
-                            android:textSize="16sp"
-                            android:layout_marginEnd="12dp" />
-
-                        <TextView
-                            android:id="@+id/tvCountry"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/info_value_color"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/bg_info_row"
-                        android:padding="12dp"
-                        android:layout_marginBottom="6dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🏢"
-                            android:textSize="16sp"
-                            android:layout_marginEnd="12dp" />
-
-                        <TextView
-                            android:id="@+id/tvOrganization"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/info_value_color"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/bg_info_row"
-                        android:padding="12dp"
-                        android:layout_marginBottom="6dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📝"
-                            android:textSize="16sp"
-                            android:layout_marginEnd="12dp" />
-
-                        <TextView
-                            android:id="@+id/tvBlogEntries"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/info_value_color"
-                            android:fontFamily="sans-serif" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnChangeHandle"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
-                android:text="Change Handle"
-                android:textSize="15sp"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:textAllCaps="false" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <ProgressBar
-        android:id="@+id/progressBarProfile"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:visibility="gone" />
 </FrameLayout>

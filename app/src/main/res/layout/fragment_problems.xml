@@ -1,157 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:id="@+id/line1"
-    android:background="@color/problems_bg"
-    android:padding="12dp">
+    android:background="@color/surface_black"
+    android:id="@+id/line1">
 
-    <com.google.android.material.card.MaterialCardView
+    <!-- ── HEADER ──────────────────────────────────────── -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        android:layout_marginBottom="8dp">
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PROBLEMS"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/on_surface"
+            android:letterSpacing="-0.02"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5000+ problems from all Codeforces rounds"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/on_surface_variant" />
+
+    </LinearLayout>
+
+    <!-- ── SEPARATOR ───────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/stroke_gray" />
+
+    <!-- ── FILTER SECTION ──────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        android:background="@color/surface_container_low">
+
+        <!-- Header Row (Filter by rating + Expand button) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
+            <TextView
+                android:id="@+id/tvFilterByRating"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="FILTER BY RATING"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:textColor="@color/rank_newbie_primary" />
+
+            <TextView
+                android:id="@+id/btnExpandFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ + ] EXPAND"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:textColor="@color/rank_newbie_primary"
+                android:paddingVertical="4dp"
+                android:paddingStart="12dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- ── COLLAPSIBLE CONTENT ────────────────────────── -->
+        <LinearLayout
+            android:id="@+id/layoutFilterContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Min Rating -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🔍  Filter by Rating"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/filter_label_color"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginBottom="12dp" />
+                android:text="MIN RATING"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.15"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginBottom="4dp" />
 
+            <EditText
+                android:id="@+id/editMinRating"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_dark_card"
+                android:inputType="number"
+                android:hint="800"
+                android:textColorHint="@color/stroke_gray_medium"
+                android:textColor="@color/on_surface"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Max Rating -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAX RATING"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.15"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/editMaxRating"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_dark_card"
+                android:inputType="number"
+                android:hint="3500"
+                android:textColorHint="@color/stroke_gray_medium"
+                android:textColor="@color/on_surface"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Apply Filter Button with brutalist shadow -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="24dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/rank_newbie_primary_dim"
+                    android:id="@+id/btnApplyShadow" />
+
+                <Button
+                    android:id="@+id/btnApplyRatingFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="APPLY FILTER"
+                    android:textColor="@color/rank_newbie_on_primary"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:letterSpacing="0.1"
+                    android:background="@color/rank_newbie_primary"
+                    android:textAllCaps="true"
+                    android:stateListAnimator="@null" />
+            </FrameLayout>
+
+            <!-- ── POPULAR TAGS ────────────────────────────────── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxStrokeColor="@color/profile_gradient_start"
-                    android:hint="Min Rating">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editMinRating"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxStrokeColor="@color/profile_gradient_start"
-                    android:hint="Max Rating">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editMaxRating"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnApplyRatingFilter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:minWidth="80dp"
-                    android:text="Apply"
-                    android:textColor="@color/apply_btn_text"
+                    android:text="POPULAR TAGS"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
                     android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:background="@drawable/bg_apply_button"
-                    android:textAllCaps="false"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingHorizontal="16dp" />
+                    android:letterSpacing="0.15"
+                    android:textColor="@color/on_surface_variant" />
 
+                <TextView
+                    android:id="@+id/tvViewAllTags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VIEW ALL →"
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:textColor="@color/rank_newbie_primary" />
             </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:clipToPadding="false"
+                android:layout_marginHorizontal="-16dp"
+                android:paddingHorizontal="16dp"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="true"
+                    app:chipSpacingHorizontal="8dp" />
+
+            </HorizontalScrollView>
+
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:paddingVertical="4dp"
-        android:layout_marginBottom="8dp"
-        android:clipToPadding="false">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupTags"
-            android:layout_width="wrap_content"
+        <!-- ── ARCHIVE PROBLEMS HEADER & SORT ──────────────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleLine="true" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    </HorizontalScrollView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="ARCHIVE PROBLEMS"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:textAllCaps="true"
+                android:letterSpacing="0.05"
+                android:textColor="@color/on_surface" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/bg_sort_section"
-        android:padding="12dp"
-        android:layout_marginBottom="12dp">
+            <!-- Sort dropdown wrapped to look like brutalist button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="8dp"
+                android:background="@drawable/bg_outlined_button">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="⬆️"
-            android:textSize="16sp"
-            android:layout_marginEnd="8dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SORT"
+                    android:textSize="12sp"
+                    android:textColor="@color/on_surface_variant"
+                    android:layout_marginEnd="4dp" />
 
-        <TextView
-            android:id="@+id/tvSortTimeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sort by Upload Time:"
-            android:textStyle="bold"
-            android:textSize="13sp"
-            android:textColor="@color/sort_label_color"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginEnd="8dp" />
+                <Spinner
+                    android:id="@+id/spinnerSortTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:paddingEnd="0dp" />
+            </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerSortTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            <!-- Minimize Button -->
+            <TextView
+                android:id="@+id/btnMinimizeFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ - ]"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:paddingVertical="8dp"
+                android:paddingStart="12dp"
+                android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
+    <!-- ── SEPARATOR ───────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/stroke_gray" />
+
+    <!-- ── PROBLEM LIST ─────────────────────────────────── -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -167,15 +311,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="80dp"
                 android:visibility="gone" />
 
             <ProgressBar
                 android:id="@+id/progressBarContests"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:indeterminateTint="@color/rank_newbie_primary" />
 
         </FrameLayout>
 
