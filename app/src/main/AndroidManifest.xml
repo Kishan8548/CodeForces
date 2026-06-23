@@ -17,24 +17,47 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Starting">
 
+        <!-- ── LAUNCHER: Auth screen ───────────────────────────── -->
         <activity
-            android:name=".ui.EnterUsernameActivity"
+            android:name=".ui.AuthActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting">
+            android:theme="@style/Base.Theme.CodeForces">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
+        <!-- ── Handle binding (post sign-in) ──────────────────── -->
         <activity
-        android:name=".ui.MainActivity"
-        android:exported="false"
-        android:theme="@style/Base.Theme.CodeForces" />
+            android:name=".ui.HandleBindingActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.CodeForces" />
 
+        <!-- ── Anonymous / skip flow entry ────────────────────── -->
+        <activity
+            android:name=".ui.EnterUsernameActivity"
+            android:exported="false"
+            android:theme="@style/Theme.App.Starting" />
 
-        <receiver android:name=".ContestReminderReceiver" />
+        <!-- ── Main app shell ──────────────────────────────────── -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.CodeForces" />
+
+        <!-- ── Friend Profile Activity ─────────────────────────── -->
+        <activity
+            android:name=".ui.FriendProfileActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.CodeForces" />
+
+        <!-- ── Contest reminder receiver ──────────────────────── -->
+        <receiver
+            android:name=".ContestReminderReceiver"
+            android:exported="false" />
+
+        <!-- ── Home screen widget ──────────────────────────────── -->
         <receiver
             android:name=".widget.ProfileWidget"
             android:exported="true">
@@ -46,6 +69,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/profile_widget_info" />
         </receiver>
+
     </application>
 
 </manifest>
