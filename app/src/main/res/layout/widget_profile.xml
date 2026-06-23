@@ -1,86 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widget_root"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_border"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="14dp"
-    android:background="@drawable/widget_background">
+    android:background="#404040"
+    android:padding="2dp">
 
-    <!-- Header row: CF logo + App label + Refresh button -->
-    <ImageView
-        android:id="@+id/widget_logo"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/cf_logo"
-        android:contentDescription="@string/app_name" />
+    <LinearLayout
+        android:id="@+id/widget_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="#000000">
 
-    <TextView
-        android:id="@+id/widget_app_label"
-        android:layout_width="wrap_content"
+    <!-- Header Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/widget_logo"
-        android:layout_centerVertical="true"
-        android:layout_alignTop="@id/widget_logo"
-        android:layout_alignBottom="@id/widget_logo"
-        android:gravity="center_vertical"
-        android:layout_marginStart="6dp"
-        android:text="@string/widget_app_name"
-        android:textSize="11sp"
-        android:textColor="#99FFFFFF" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <ImageView
-        android:id="@+id/widget_refresh"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:padding="2dp"
-        android:src="@drawable/ic_refresh"
-        android:contentDescription="@string/widget_refresh_desc" />
+        <ImageView
+            android:id="@+id/widget_logo"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/cf_logo" />
 
-    <!-- Username handle -->
+        <TextView
+            android:id="@+id/widget_app_label"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            android:textSize="10sp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="#A0A0A0"
+            android:layout_marginStart="8dp"
+            android:letterSpacing="0.05" />
+
+        <ImageView
+            android:id="@+id/widget_refresh"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_refresh"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/widget_divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#404040"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Handle & Rank -->
     <TextView
         android:id="@+id/widget_handle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/widget_logo"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:textSize="17sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-black"
         android:textColor="#FFFFFF"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="" />
+        android:text="tourist" />
 
-    <!-- Rank badge -->
     <TextView
         android:id="@+id/widget_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/widget_handle"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="4dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:background="@drawable/widget_rank_badge_bg"
-        android:textSize="11sp"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
         android:textStyle="bold"
         android:textColor="#80FFFFFF"
-        android:maxLines="1"
-        android:text="" />
+        android:textAllCaps="true"
+        android:text="legendary grandmaster"
+        android:layout_marginTop="2dp" />
 
-    <!-- Rating stats row -->
+    <FrameLayout
+        android:id="@+id/widget_divider_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#404040"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Stats -->
     <LinearLayout
         android:id="@+id/widget_stats_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/widget_rank"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <!-- Current Rating -->
@@ -94,18 +106,20 @@
                 android:id="@+id/widget_rating_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/widget_rating_label"
+                android:text="RATING"
+                android:fontFamily="monospace"
                 android:textSize="10sp"
-                android:textColor="#80FFFFFF" />
+                android:textColor="#A0A0A0" />
 
             <TextView
                 android:id="@+id/widget_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:fontFamily="monospace"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:text="" />
+                android:text="3999" />
         </LinearLayout>
 
         <!-- Max Rating -->
@@ -119,20 +133,23 @@
                 android:id="@+id/widget_max_rating_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/widget_max_rating_label"
+                android:text="MAX"
+                android:fontFamily="monospace"
                 android:textSize="10sp"
-                android:textColor="#80FFFFFF" />
+                android:textColor="#A0A0A0" />
 
             <TextView
                 android:id="@+id/widget_max_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:fontFamily="monospace"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:text="" />
+                android:text="4000" />
         </LinearLayout>
 
+        <!-- Solved Today -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -143,26 +160,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/widget_todays_submission_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/todays_submission_label"
+                    android:text="TODAY"
+                    android:fontFamily="monospace"
                     android:textSize="10sp"
-                    android:textColor="#80FFFFFF" />
+                    android:textColor="#A0A0A0" />
 
                 <ImageView
                     android:id="@+id/checkSubmission"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:src="@drawable/baseline_check_circle_24"
-                    android:padding="0dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="4dp"
                     android:visibility="gone"/>
-
-
             </LinearLayout>
 
             <TextView
@@ -170,11 +185,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:fontFamily="monospace"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:text="" />
+                android:text="0" />
         </LinearLayout>
-
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
+</FrameLayout>

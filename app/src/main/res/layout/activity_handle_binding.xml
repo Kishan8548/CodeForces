@@ -46,7 +46,7 @@
                 android:text="Hey there!"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/archivo_black"
                 android:textColor="@color/on_surface" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="you@gmail.com"
                 android:textSize="12sp"
-                android:fontFamily="monospace"
+                android:fontFamily="@font/space_mono_bold"
                 android:textColor="@color/on_surface_variant"
                 android:layout_marginTop="2dp" />
 
@@ -69,7 +69,7 @@
         android:text="LINK YOUR\nCODEFORCES\nHANDLE"
         android:textSize="36sp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/archivo_black"
         android:textColor="@color/on_surface"
         android:lineSpacingMultiplier="0.95"
         android:letterSpacing="-0.03"
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:text="We will fetch your stats, rank, and contest history automatically."
         android:textSize="13sp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/space_mono_bold"
         android:textColor="@color/on_surface_variant"
         android:lineSpacingMultiplier="1.5"
         android:layout_marginBottom="40dp" />
@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:text="CF HANDLE"
         android:textSize="11sp"
-        android:fontFamily="monospace"
+        android:fontFamily="@font/space_mono_bold"
         android:textColor="@color/on_surface_variant"
         android:letterSpacing="0.2"
         android:layout_marginBottom="8dp" />

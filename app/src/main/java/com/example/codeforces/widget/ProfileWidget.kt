@@ -158,6 +158,7 @@ class ProfileWidget : AppWidgetProvider() {
 
                 if (user != null) {
                     views.setTextViewText(R.id.widget_handle, user.handle)
+                    views.setTextColor(R.id.widget_handle, RankUtils.getRankColor(context, user.rating))
 
                     // Rating
                     val currentRating = user.rating ?: 0
@@ -173,6 +174,13 @@ class ProfileWidget : AppWidgetProvider() {
                     val rankText = user.rank ?: context.getString(R.string.widget_unrated)
                     views.setTextViewText(R.id.widget_rank, rankText)
                     views.setTextColor(R.id.widget_rank, RankUtils.getRankColor(context, user.rating))
+                    
+                    // Dynamic Widget Theme
+                    val theme = com.example.codeforces.utils.ThemeManager.getThemeForRating(context, user.rating)
+                    views.setInt(R.id.widget_border, "setBackgroundColor", theme.strokeGray)
+                    views.setInt(R.id.widget_root, "setBackgroundColor", theme.surface)
+                    views.setInt(R.id.widget_divider_1, "setBackgroundColor", theme.strokeGray)
+                    views.setInt(R.id.widget_divider_2, "setBackgroundColor", theme.strokeGray)
                 } else {
                     views.setTextViewText(R.id.widget_rating, "–")
                     views.setTextViewText(R.id.widget_max_rating, "–")

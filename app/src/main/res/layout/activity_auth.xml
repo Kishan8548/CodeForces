@@ -12,8 +12,7 @@
     <ImageView
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/ic_profile"
-        app:tint="@color/rank_newbie_primary"
+        android:src="@drawable/cf_logo"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp" />
 
@@ -23,7 +22,7 @@
         android:text="CF COMPANION"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/archivo_black"
         android:textColor="@color/on_surface"
         android:letterSpacing="-0.02"
         android:gravity="center"
@@ -34,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="The smart companion for competitive programmers"
         android:textSize="13sp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/space_mono_bold"
         android:textColor="@color/on_surface_variant"
         android:gravity="center"
         android:lineSpacingMultiplier="1.4"
@@ -60,7 +59,7 @@
             <ImageView android:layout_width="24dp" android:layout_height="24dp"
                 android:src="@android:drawable/btn_star" app:tint="@color/on_surface" android:layout_gravity="center" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Rank\nThemes" android:textSize="10sp" android:fontFamily="monospace"
+                android:text="Rank\nThemes" android:textSize="10sp" android:fontFamily="@font/space_mono_bold"
                 android:textColor="@color/on_surface_variant" android:gravity="center"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
@@ -75,9 +74,9 @@
             android:background="@drawable/bg_dark_card"
             android:layout_marginEnd="8dp">
             <ImageView android:layout_width="24dp" android:layout_height="24dp"
-                android:src="@drawable/ic_profile" app:tint="@color/on_surface" android:layout_gravity="center" />
+                android:src="@drawable/friend_icon" app:tint="@color/on_surface" android:layout_gravity="center" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="In-App\nFriends" android:textSize="10sp" android:fontFamily="monospace"
+                android:text="In-App\nFriends" android:textSize="10sp" android:fontFamily="@font/space_mono_bold"
                 android:textColor="@color/on_surface_variant" android:gravity="center"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
@@ -93,7 +92,7 @@
             <ImageView android:layout_width="24dp" android:layout_height="24dp"
                 android:src="@android:drawable/ic_menu_compass" app:tint="@color/on_surface" android:layout_gravity="center" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Battle\nMode" android:textSize="10sp" android:fontFamily="monospace"
+                android:text="Battle\nMode" android:textSize="10sp" android:fontFamily="@font/space_mono_bold"
                 android:textColor="@color/on_surface_variant" android:gravity="center"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
@@ -120,8 +119,8 @@
             android:text="CONTINUE WITH GOOGLE"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:fontFamily="monospace"
-            android:letterSpacing="0.05"
+            android:fontFamily="@font/space_mono_bold"
+            android:letterSpacing="0.08"
             android:textColor="@color/rank_newbie_on_primary"
             android:backgroundTint="@color/rank_newbie_primary"
             app:cornerRadius="0dp"
@@ -137,9 +136,10 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:text="SKIP — BROWSE WITHOUT ACCOUNT"
-        android:textSize="12sp"
-        android:fontFamily="monospace"
-        android:letterSpacing="0.05"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/space_mono_bold"
+        android:letterSpacing="0.02"
         android:textColor="@color/on_surface_variant"
         android:backgroundTint="@android:color/transparent"
         app:strokeColor="@color/stroke_gray"
