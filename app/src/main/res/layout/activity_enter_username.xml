@@ -1,49 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/surface_black"
     android:gravity="center"
-    android:padding="20dp"
-    tools:context=".ui.EnterUsernameActivity">
-    
+    android:padding="28dp">
+
+    <!-- ── TOP BADGE ──────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="56dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_profile"
+            app:tint="@color/on_surface"
+            android:layout_marginEnd="6dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CODEFORCES"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textColor="@color/rank_newbie_primary"
+                android:letterSpacing="0.12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COMPANION"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.25" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ── HEADLINE ───────────────────────────────────── -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ENTER YOUR\nHANDLE"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/on_surface"
+        android:lineSpacingMultiplier="0.95"
+        android:letterSpacing="-0.03"
+        android:layout_marginBottom="12dp" />
+
+    <!-- ── SUBTITLE ──────────────────────────────────── -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Codeforces username. We will pull your stats, rank, and submissions automatically."
+        android:textSize="14sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/on_surface_variant"
+        android:lineSpacingMultiplier="1.5"
+        android:layout_marginBottom="40dp" />
+
+    <!-- ── INPUT LABEL ───────────────────────────────── -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CF HANDLE"
+        android:textSize="11sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/on_surface_variant"
+        android:letterSpacing="0.2"
+        android:layout_marginBottom="8dp" />
+
+    <!-- ── INPUT FIELD ───────────────────────────────── -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Codeforces Username"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="@color/black"
-        app:boxCornerRadiusBottomEnd="15dp"
-        app:boxCornerRadiusBottomStart="15dp"
-        app:boxCornerRadiusTopEnd="15dp"
-        android:elevation="10dp"
-        app:boxCornerRadiusTopStart="15dp">
+        style="@style/CFInputStyle"
+        android:layout_marginBottom="8dp"
+        app:boxStrokeColor="@color/rank_newbie_primary"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
+            android:layout_height="56dp"
+            android:inputType="textNoSuggestions"
             android:maxLines="1"
             android:imeOptions="actionDone"
-            />
+            android:textColor="@color/on_surface"
+            android:textColorHint="@color/on_surface_variant"
+            android:hint="e.g. tourist"
+            android:fontFamily="monospace"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_submit"
+    <!-- ── HELPER TEXT ──────────────────────────────── -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#425e9c"
-        app:strokeColor="@color/black"
-        app:strokeWidth="1dp"
-        android:textSize="16sp"
-        android:elevation="10dp"
-        app:cornerRadius="10dp"/>
+        android:text="Case-sensitive. Exactly as shown on codeforces.com"
+        android:textSize="11sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/on_surface_variant"
+        android:layout_marginBottom="40dp" />
+
+    <!-- ── SUBMIT BUTTON ────────────────────────────── -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Hard shadow offset layer -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/rank_newbie_primary_dim" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:text="CONNECT"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:textColor="@color/rank_newbie_on_primary"
+            android:backgroundTint="@color/rank_newbie_primary"
+            app:cornerRadius="0dp"
+            app:elevation="0dp" />
+    </FrameLayout>
+
+    <!-- ── DISCLAIMER ───────────────────────────────── -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Only public Codeforces API is used. No password required."
+        android:textSize="11sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/on_surface_variant"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.4" />
 
 </LinearLayout>

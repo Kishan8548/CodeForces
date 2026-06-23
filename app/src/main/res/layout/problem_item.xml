@@ -1,57 +1,129 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Problem card — flat dark card, monospace index badge, colored rating -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardProblemRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    card_view:cardElevation="4dp"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardUseCompatPadding="true">
+    android:orientation="horizontal"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_dark_card"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
 
+    <!-- Left accent bar (rank color — set at runtime) -->
+    <View
+        android:id="@+id/problemAccentBar"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@color/rank_newbie_primary"
+        android:minHeight="70dp" />
+
+    <!-- Problem content -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="14dp">
 
-        <TextView
-            android:id="@+id/textTitle"
-            android:layout_width="wrap_content"
+        <!-- Title row: index badge + name -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Problem Name"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginBottom="2dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/textIndex"
-            android:layout_width="wrap_content"
+            <!-- Index badge — rank color -->
+            <TextView
+                android:id="@+id/textIndex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.05"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:background="@drawable/bg_rank_badge_dark"
+                android:textColor="@color/rank_newbie_on_primary"
+                android:layout_marginEnd="10dp" />
+
+            <!-- Problem title -->
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Problem Name"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/on_surface"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+        <!-- Meta row: rating + tags -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Index: A"
-            android:textSize="14sp"
-            android:layout_marginBottom="2dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/textRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Rating: 1200"
-            android:drawableStart="@drawable/ic_star"
-            android:textSize="14sp"
-            android:layout_marginBottom="2dp"/>
+            <!-- Star + Rating -->
+            <TextView
+                android:id="@+id/textRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="★ 1200"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/rank_newbie_primary"
+                android:textStyle="bold"
+                android:layout_marginEnd="12dp" />
 
-        <TextView
-            android:id="@+id/textTags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tags: math, greedy"
-            android:textSize="13sp"
-            android:layout_marginBottom="2dp"/>
+            <!-- Tags -->
+            <TextView
+                android:id="@+id/textTags"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="math, greedy"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
+        </LinearLayout>
+
+        <!-- Solved count -->
         <TextView
             android:id="@+id/textSolved"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Solved by: 5123 users"
-            android:textSize="13sp"/>
+            android:text="Solved: —"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:textColor="@color/on_surface_variant"
+            android:layout_marginTop="4dp" />
+
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+    <!-- Right arrow indicator -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="›"
+        android:textSize="24sp"
+        android:textColor="@color/stroke_gray_medium"
+        android:paddingEnd="14dp" />
+
+</LinearLayout>

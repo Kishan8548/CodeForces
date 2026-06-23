@@ -1,71 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardContestRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_dark_card"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:layout_marginRight="20dp"
-    android:layout_marginBottom="20dp">
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
 
+    <!-- ── PHASE BADGE ROW ──────────────────────────────── -->
+    <LinearLayout
+        android:id="@+id/badgeRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="8dp">
+
+        <!-- Division badge (rank color bg) -->
+        <TextView
+            android:id="@+id/textContestType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CF"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:textAllCaps="true"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:background="@drawable/bg_rank_badge_dark"
+            android:textColor="@color/rank_newbie_on_primary"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Phase badge (outlined) -->
+        <TextView
+            android:id="@+id/textPhase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UPCOMING"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:textAllCaps="true"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:background="@drawable/bg_outlined_button"
+            android:textColor="@color/on_surface_variant" />
+
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
+
+        <!-- LIVE NOW tag -->
+        <TextView
+            android:id="@+id/textLiveNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⬤  LIVE"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:textColor="@color/rank_newbie_primary"
+            android:letterSpacing="0.1"
+            android:textAllCaps="true"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- ── CONTEST NAME ─────────────────────────────────── -->
+    <TextView
+        android:id="@+id/textContestName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contest Name"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/on_surface"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="12dp"
+        android:lineSpacingMultiplier="1.2" />
+
+    <!-- ── DIVIDER ──────────────────────────────────────── -->
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/stroke_gray" />
+
+    <!-- ── DURATION + COUNTDOWN ROW ────────────────────── -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/textContestName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textContestType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/textPhase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/textDuration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp" />
-
+        <!-- Duration -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DURATION"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.15"
+                android:layout_marginBottom="2dp" />
+
+            <TextView
+                android:id="@+id/textDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="14sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:textColor="@color/on_surface" />
+
+        </LinearLayout>
+
+        <!-- Countdown -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/tvTimerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STARTS IN"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.15"
+                android:layout_marginBottom="2dp" />
 
             <TextView
                 android:id="@+id/textTimer"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_weight="1"
                 android:text="00:00:00"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="14sp" />
+                android:textSize="20sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:textColor="@color/danger_red" />
 
-            <ImageButton
-                android:id="@+id/btnOpenContest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="View on Codeforces"
-                android:src="@drawable/ic_redirect" />
-
-            <ImageButton
-                android:id="@+id/btnSetReminder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_reminder" />
         </LinearLayout>
 
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+
+    <!-- ── DIVIDER ──────────────────────────────────────── -->
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/stroke_gray" />
+
+    <!-- ── ACTION BUTTONS — REMIND | REGISTER (equal width) ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- 🔔 REMIND ME button — left half -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSetReminder"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="52dp"
+            android:text="REMIND"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.05"
+            android:textColor="@color/on_surface"
+            android:backgroundTint="@color/surface_container_high"
+            app:cornerRadius="0dp"
+            app:elevation="0dp"
+            app:strokeColor="@color/stroke_gray"
+            app:strokeWidth="0dp" />
+
+        <!-- 1dp vertical separator -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="52dp"
+            android:background="@color/stroke_gray" />
+
+        <!-- REGISTER / ENTER / STANDINGS button — right half -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegister"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="52dp"
+            android:text="REGISTER"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.08"
+            android:textColor="@color/rank_newbie_on_primary"
+            android:backgroundTint="@color/rank_newbie_primary"
+            app:cornerRadius="0dp"
+            app:elevation="0dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

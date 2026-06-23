@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="12dp"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginEnd="8dp">
+
+        <TextView
+            android:id="@+id/tvProblemId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1843D"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:textColor="@color/on_surface_variant"
+            android:layout_marginBottom="2dp" />
+
+        <TextView
+            android:id="@+id/tvProblemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apple Tree"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/on_surface"
+            android:maxLines="2"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <TextView
+            android:id="@+id/tvVerdict"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACCEPTED"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:textStyle="bold"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            android:textColor="#00ff66"
+            android:background="#3300ff66" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="wrap_content"
+        android:text="46 ms"
+        android:textSize="12sp"
+        android:fontFamily="monospace"
+        android:textColor="@color/on_surface_variant"
+        android:gravity="end" />
+
+</LinearLayout>
