@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginHorizontal="0dp"
+    android:layout_marginBottom="2dp"
+    android:padding="16dp"
+    android:background="@drawable/bg_dark_card"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <!-- Square Avatar with Border -->
+    <FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/stroke_gray"
+        android:padding="1dp">
+        <ImageView
+            android:id="@+id/friendAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile" />
+    </FrameLayout>
+
+    <!-- Handle & Rank -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tvFriendHandle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tourist"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="-0.02"
+                android:textColor="@color/danger_red" />
+
+            <ImageView
+                android:id="@+id/ivVerified"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/baseline_check_circle_24"
+                app:tint="@color/rank_newbie_primary" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvFriendRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LEGENDARY GRANDMASTER"
+            android:textSize="8sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/on_surface_variant"
+            android:layout_marginTop="2dp" />
+
+    </LinearLayout>
+
+    <!-- Rating OR Add Friend button -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        
+        <!-- Friend Rating Info -->
+        <LinearLayout
+            android:id="@+id/layoutRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+            
+            <TextView
+                android:id="@+id/tvFriendRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3842"
+                android:textSize="16sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:textColor="@color/rank_newbie_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RATING"
+                android:textSize="8sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.1"
+                android:textColor="@color/on_surface_variant" />
+        </LinearLayout>
+
+        <!-- Add Button (For non-friends) -->
+        <FrameLayout
+            android:id="@+id/layoutAddAction"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="gone">
+            <View
+                android:id="@+id/viewAddShadow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/rank_newbie_primary_dim" />
+            <ImageView
+                android:id="@+id/ivAddFriendIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/rank_newbie_primary"
+                android:src="@drawable/ic_add_friend"
+                android:padding="12dp"
+                app:tint="@color/rank_newbie_on_primary" />
+        </FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

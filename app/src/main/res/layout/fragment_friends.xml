@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/surface_black"
+    android:paddingTop="24dp">
+
+    <!-- ── HEADER ──────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FRIENDS"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/on_surface"
+            android:letterSpacing="-0.02"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Track performance and recent activities"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/on_surface_variant" />
+
+    </LinearLayout>
+
+    <!-- ── SEPARATOR ───────────────────────────────────── -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/stroke_gray" />
+
+    <!-- SEARCH BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_dark_card"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_search"
+            app:tint="@color/on_surface_variant" />
+
+        <EditText
+            android:id="@+id/editSearchFriends"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="SEARCH FRIENDS BY HANDLE..."
+            android:textColorHint="@color/stroke_gray_medium"
+            android:textColor="@color/on_surface"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:paddingHorizontal="12dp"
+            android:singleLine="true"
+            android:imeOptions="actionSearch" />
+
+        <TextView
+            android:id="@+id/btnCancelSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ESC"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:textStyle="bold"
+            android:textColor="@color/on_surface_variant"
+            android:background="@drawable/bg_outlined_button"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- STATS ROW -->
+    <LinearLayout
+        android:id="@+id/layoutStatsRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="32dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dark_card"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TOTAL FRIENDS"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvTotalFriends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:textColor="@color/rank_newbie_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dark_card"
+            android:padding="16dp"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ACTIVE NOW"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:textColor="@color/on_surface_variant"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:id="@+id/indicatorActiveNow"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@color/rank_newbie_primary"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/tvActiveNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="18sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:textColor="@color/rank_newbie_primary" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- HEADER TITLE -->
+    <TextView
+        android:id="@+id/tvFriendsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MY FRIENDS"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.1"
+        android:textColor="@color/on_surface_variant"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- ── SIGN-IN REQUIRED CARD (shown if not authenticated) ─── -->
+    <LinearLayout
+        android:id="@+id/cardSignInRequired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_dark_card"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_secure"
+            android:layout_marginBottom="12dp"
+            app:tint="@color/on_surface" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN IN TO USE FRIENDS"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:textColor="@color/on_surface"
+            android:letterSpacing="0.05"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add friends, track their ratings and contest activity — sign in with Google to enable this feature."
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/on_surface_variant"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.4"
+            android:layout_marginBottom="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGoSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="SIGN IN WITH GOOGLE"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:textColor="@color/rank_newbie_on_primary"
+            android:backgroundTint="@color/rank_newbie_primary"
+            app:cornerRadius="0dp"
+            app:elevation="0dp" />
+
+    </LinearLayout>
+
+    <!-- ── FRIENDS RECYCLERVIEW ─────────────────────────── -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshFriends"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerFriends"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="80dp"
+                android:visibility="gone" />
+
+    <!-- ── LOADING ──────────────────────────────────────── -->
+    <ProgressBar
+        android:id="@+id/progressFriends"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:indeterminateTint="@color/rank_newbie_primary"
+        android:visibility="gone" />
+
+    <!-- ── EMPTY STATE ──────────────────────────────────── -->
+    <LinearLayout
+        android:id="@+id/emptyFriends"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_search"
+            android:layout_marginBottom="16dp"
+            app:tint="@color/on_surface_variant" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO FRIENDS YET"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:textColor="@color/on_surface_variant"
+            android:letterSpacing="0.08"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search above to add friends."
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/on_surface_variant"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.5" />
+
+    </LinearLayout>
+
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>
